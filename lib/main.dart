@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idea/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,27 +15,30 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: const MyNavigationBar(),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class MyNavigationBar extends StatefulWidget {
+  const MyNavigationBar({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return HomeState();
+    return MyNavigationBarState();
   }
 }
 
-class HomeState extends State<Home> {
+class MyNavigationBarState extends State<MyNavigationBar> {
   bool clickedCentreFAB = false;
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
-    Text("1"),
-    Text("2"),
+    Home(),
+    Align(
+      alignment: Alignment.center,
+      child: Text("2"),
+    ),
     Text("3"),
     Text("4"),
   ];
@@ -51,9 +55,9 @@ class HomeState extends State<Home> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Align(
-            alignment: FractionalOffset.center,
-            child: _pages[_selectedIndex],
+          IndexedStack(
+            index: _selectedIndex,
+            children: _pages,
           ),
           Align(
             alignment: FractionalOffset.bottomCenter,
