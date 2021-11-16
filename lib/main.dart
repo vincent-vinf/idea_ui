@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:idea/pages/home.dart';
+import 'package:idea/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,12 +34,15 @@ class MyNavigationBarState extends State<MyNavigationBar> {
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
-    Home(),
+    HomePage(),
     Align(
       alignment: Alignment.center,
       child: Text("2"),
     ),
-    Text("3"),
+    Align(
+      alignment: Alignment.center,
+      child: Text("chat\ntodo"),
+    ),
     Text("4"),
   ];
 
