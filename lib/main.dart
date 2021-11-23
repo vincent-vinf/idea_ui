@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:idea/pages/edit_page.dart';
 import 'package:idea/pages/home_page.dart';
+import 'package:idea/pages/user_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +32,6 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class MyNavigationBarState extends State<MyNavigationBar> {
-  bool clickedCentreFAB = false;
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
@@ -43,7 +44,7 @@ class MyNavigationBarState extends State<MyNavigationBar> {
       alignment: Alignment.center,
       child: Text("chat\ntodo"),
     ),
-    Text("4"),
+    UserPage(),
   ];
 
   //call this method on click of each bottom app bar item to update the screen
@@ -56,42 +57,28 @@ class MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          IndexedStack(
-            index: _selectedIndex,
-            children: _pages,
-          ),
-          Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              //if clickedCentreFAB == true, the first parameter is used. If it's false, the second.
-              height:
-                  clickedCentreFAB ? MediaQuery.of(context).size.height : 10.0,
-              width:
-                  clickedCentreFAB ? MediaQuery.of(context).size.height : 10.0,
-              decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(clickedCentreFAB ? 0.0 : 300.0),
-                  color: Colors.blue),
-            ),
-          )
-        ],
+      body: SafeArea(
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _pages,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: IconButton(
         padding: const EdgeInsets.all(0),
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
+        // splashColor: Colors.transparent,
+        // highlightColor: Colors.transparent,
         icon: const Image(
           image: AssetImage('assets/image/add.png'),
         ),
         iconSize: 70,
         onPressed: () {
-          setState(() {
-            clickedCentreFAB = !clickedCentreFAB;
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return EditPage();
+            }),
+          );
         },
       ),
       bottomNavigationBar: BottomAppBar(
