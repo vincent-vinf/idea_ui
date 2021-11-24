@@ -38,6 +38,8 @@ dependencies:
   markdown_widget: ^1.2.7
   markdown_editable_textinput: ^2.0.2
   flip_card: ^0.6.0
+  dio: ^4.0.4
+  fresh_dio: ^0.3.1
 
 dev_dependencies:
   flutter_test:

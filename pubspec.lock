@@ -64,6 +64,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.4"
   effective_dart:
     dependency: transitive
     description:
@@ -121,6 +128,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fresh:
+    dependency: transitive
+    description:
+      name: fresh
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.0"
+  fresh_dio:
+    dependency: "direct main"
+    description:
+      name: fresh_dio
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.1"
   getwidget:
     dependency: "direct main"
     description:
@@ -142,6 +163,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.15.0"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.0"
   js:
     dependency: transitive
     description:
