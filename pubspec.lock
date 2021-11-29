@@ -92,6 +92,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0"
+  flare_flutter:
+    dependency: "direct main"
+    description:
+      name: flare_flutter
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.2"
   flip_card:
     dependency: "direct main"
     description:
@@ -104,6 +111,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_easyrefresh:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: c52487850b87a35954a6d2662709438385cf7c1a
+      url: "git://github.com/xuelongqy/flutter_easyrefresh.git"
+    source: git
+    version: "2.2.1"
   flutter_highlight:
     dependency: transitive
     description:
