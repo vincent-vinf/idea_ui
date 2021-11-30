@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:idea/pages/edit_page.dart';
 import 'package:idea/pages/home_page.dart';
+import 'package:idea/pages/sort_page.dart';
 import 'package:idea/pages/user_page.dart';
 
 void main() {
@@ -36,10 +37,7 @@ class MyNavigationBarState extends State<MyNavigationBar> {
 
   static const List<Widget> _pages = <Widget>[
     HomePage(),
-    Align(
-      alignment: Alignment.center,
-      child: Text("2"),
-    ),
+    SortPage(),
     Align(
       alignment: Alignment.center,
       child: Text("chat\ntodo"),

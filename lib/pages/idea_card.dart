@@ -13,6 +13,8 @@ class IdeaCard extends StatefulWidget {
 }
 
 class _IdeaCardState extends State<IdeaCard> {
+  bool isClick = true;
+
   @override
   Widget build(BuildContext context) {
     User user = getUser(widget.idea.userId);
@@ -35,7 +37,7 @@ class _IdeaCardState extends State<IdeaCard> {
       ),
       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       content: Column(
         children: [
           Text(widget.idea.summary),
@@ -70,18 +72,22 @@ class _IdeaCardState extends State<IdeaCard> {
                 ),
               ),
               SizedBox(
-                height: 24,
-                width: 24,
+                height: 26,
+                width: 26,
                 child: IconButton(
                   splashRadius: 30,
                   onPressed: () {
-                    print("123");
+                    setState(() {
+                      isClick = ! isClick;
+                    });
                   },
                   padding: const EdgeInsets.all(0),
                   icon: Container(
                     foregroundDecoration: null,
-                    child: const Image(
-                      image: AssetImage('assets/image/like2.png'),
+                    child: Image(
+                      image: isClick
+                          ? const AssetImage('assets/image/like2.png')
+                          : const AssetImage('assets/image/like2_empty.png'),
                     ),
                   ),
                 ),
