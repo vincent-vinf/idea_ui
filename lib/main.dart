@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:idea/pages/edit_page.dart';
 import 'package:idea/pages/home_page.dart';
+import 'package:idea/pages/login.dart';
 import 'package:idea/pages/sort_page.dart';
 import 'package:idea/pages/user_page.dart';
+import 'package:idea/util/token.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await getToken();
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyNavigationBar(),
+      home: isValidToken() ? const MyNavigationBar() : const LoginScreen(),
     );
   }
 }

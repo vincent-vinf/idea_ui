@@ -62,7 +62,7 @@ class _IdeaCardState extends State<IdeaCard> {
                           },
                           padding: const EdgeInsets.all(0),
                           icon: const Image(
-                            image: AssetImage('assets/image/heart.png'),
+                            image: AssetImage('assets/image/life50.png'),
                           ),
                         ),
                       ),
