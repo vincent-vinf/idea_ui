@@ -24,6 +24,6 @@ Future<void> delToken() async {
 }
 
 bool isValidToken() {
-  if (token == "") return false;
+  // if (token == "") return false;
   return true;
 }
