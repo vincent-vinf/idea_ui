@@ -18,14 +18,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("GeeksforGeeks"),
+        title: const Text("idea"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             tooltip: 'Setting Icon',
             onPressed: () {},
-          ), //IconButton
-        ], //<Widget>[]
+          ),
+        ],
         backgroundColor: Colors.blue,
         elevation: 50.0,
       ),
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   return IdeaCard(idea: Idea(1, 1, "summary", "content", 1024));
                 },
                 childCount: _count,

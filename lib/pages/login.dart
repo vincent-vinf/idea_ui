@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:idea/util/request.dart';
+import 'package:idea/util/token.dart';
 
 import '../main.dart';
 
@@ -11,23 +13,27 @@ const users = {
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  Duration get loginTime => Duration(milliseconds: 2250);
+  Duration get loginTime => const Duration(milliseconds: 2250);
 
-  Future<String?> _authUser(LoginData data) {
+  Future<String?> _authUser(LoginData data) async {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginTime).then((_) {
-      if (!users.containsKey(data.name)) {
-        return 'User not exists';
-      }
-      if (users[data.name] != data.password) {
-        return 'Password does not match';
-      }
+    final re = await post("/login", {"email": "1@qq.com", "passwd": "1"});
+    if (re.statusCode == 200 && re.data["code"] == 200) {
+      debugPrint(re.data["token"]);
+      setToken(re.data["token"]);
       return null;
-    });
+    } else {
+      return "Incorrect username or password";
+    }
   }
 
-  Future<String?> _signupUser(SignupData data) {
+  Future<String?> _signupUser(SignupData data) async {
     debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
+    final re = await post("/register",
+        {"username": data.name, "email": data.name, "passwd": data.password});
+    if (re.statusCode == 200 && re.data["code"] == 0) {
+
+    }
     return Future.delayed(loginTime).then((_) {
       return null;
     });

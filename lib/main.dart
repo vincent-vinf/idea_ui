@@ -4,11 +4,13 @@ import 'package:idea/pages/home_page.dart';
 import 'package:idea/pages/login.dart';
 import 'package:idea/pages/sort_page.dart';
 import 'package:idea/pages/user_page.dart';
+import 'package:idea/util/request.dart';
 import 'package:idea/util/token.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await getToken();
+  initRequest();
   runApp(const MyApp());
 }
 

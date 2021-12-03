@@ -14,10 +14,12 @@ Future<void> getToken() async {
 }
 
 Future<void> setToken(String newToken) async {
+  token = newToken;
   await storage.write(key: tokenKey, value: newToken);
 }
 
 Future<void> delToken() async {
+  token = "";
   await storage.delete(key: tokenKey);
 }
 
