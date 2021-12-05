@@ -1,3 +1,4 @@
+import 'package:dio/src/response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:idea/util/request.dart';
@@ -17,7 +18,13 @@ class LoginScreen extends StatelessWidget {
 
   Future<String?> _authUser(LoginData data) async {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
-    final re = await post("/login", {"email": "1@qq.com", "passwd": "1"});
+    Response re;
+    try {
+      re = await post("/login", {"email": "1@qq.com", "passwd": "123456abc"});
+    } catch (e) {
+      print(e);
+      return "Incorrect username or password";
+    }
     if (re.statusCode == 200 && re.data["code"] == 200) {
       debugPrint(re.data["token"]);
       setToken(re.data["token"]);
@@ -31,12 +38,15 @@ class LoginScreen extends StatelessWidget {
     debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
     final re = await post("/register",
         {"username": data.name, "email": data.name, "passwd": data.password});
-    if (re.statusCode == 200 && re.data["code"] == 0) {
-
-    }
-    return Future.delayed(loginTime).then((_) {
+    if (re.statusCode == 200 &&
+        re.data["code"] == 0 &&
+        re.data["data"]["code"] == 200) {
+      debugPrint(re.data["data"]["token"]);
+      setToken(re.data["data"]["token"]);
       return null;
-    });
+    } else {
+      return "Email already exists";
+    }
   }
 
   Future<String> _recoverPassword(String name) {
