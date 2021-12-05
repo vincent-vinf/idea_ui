@@ -104,7 +104,12 @@ class MyNavigationBarState extends State<MyNavigationBar> {
               ),
               IconButton(
                 onPressed: () {
-                  updateTabSelection(1);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return SortPage();
+                    }),
+                  );
                 },
                 padding: const EdgeInsets.all(3),
                 icon: const Image(
