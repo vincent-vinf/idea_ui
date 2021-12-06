@@ -23,7 +23,7 @@ class _IdeaSortState extends State<IdeaSort> {
       showOverlayImage: true,
       imageOverlay: AssetImage("assets/image/test.jpg"),
       title: GFListTile(
-        titleText: "有价值的坏结果",
+        subTitle: Text("有价值的坏结果",style: TextStyle(color: Colors.white,fontSize: 10.0),),
       ),
     );
   }
