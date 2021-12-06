@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   List<Idea> items = [];
 
   Future<void> getIdeaList(bool isLoad) async {
+    if (!isLoad) _count = 0;
     final re = await post("/idea/get_idea_list",
         {"page": (_count ~/ _pageSize) + 1, "pageSize": _pageSize});
     int cnt = 0;
