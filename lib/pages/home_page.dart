@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/pages/idea_card.dart';
+import 'package:idea/util/request.dart';
 import 'package:idea/util/space_header.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +14,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _count = 20;
+  static const _pageSize = 7;
+  int _count = 0;
+  int _total = 0;
+  List<Idea> items = [];
+
+  Future<void> getIdeaList(bool isLoad) async {
+    if (!isLoad) _count = 0;
+    final re = await post("/idea/get_idea_list",
+        {"page": (_count ~/ _pageSize) + 1, "pageSize": _pageSize});
+    int cnt = 0;
+    List<Idea> tmp = [];
+    if (isLoad && _total <= _count) {
+      Fluttertoast.showToast(
+          msg: "没有更多啦!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.black,
+          fontSize: 16.0);
+      return;
+    }
+    if (re.statusCode == 200 && re.data["code"] == 0) {
+      cnt = re.data["data"]["num"];
+      for (int i = 0; i < cnt; i++) {
+        tmp.add(json2Idea(re.data["data"]["list"][i]));
+      }
+      _total = re.data["data"]["total"];
+      setState(() {
+        if (!isLoad) {
+          items = tmp;
+          _count = tmp.length;
+        } else {
+          items.addAll(tmp);
+          _count += tmp.length;
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getIdeaList(false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,28 +81,16 @@ class _HomePageState extends State<HomePage> {
           header: SpaceHeader(),
           footer: BezierBounceFooter(),
           onRefresh: () async {
-            await Future.delayed(Duration(seconds: 2), () {
-              if (mounted) {
-                setState(() {
-                  _count = 20;
-                });
-              }
-            });
+            await getIdeaList(false);
           },
           onLoad: () async {
-            await Future.delayed(Duration(seconds: 2), () {
-              if (mounted) {
-                setState(() {
-                  _count += 20;
-                });
-              }
-            });
+            await getIdeaList(true);
           },
           slivers: <Widget>[
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return IdeaCard(idea: Idea(1, 1, "summary", "content", 1024));
+                  return IdeaCard(idea: items[index]);
                 },
                 childCount: _count,
               ),

@@ -6,7 +6,7 @@ const tokenKey = "token";
 String token = "";
 
 Future<void> getToken() async {
-  await delToken();
+  // await delToken();
   final tmp = await storage.read(key: tokenKey);
   if (tmp != null) {
     token = tmp;
