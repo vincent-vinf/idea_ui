@@ -13,7 +13,17 @@ class IdeaCard extends StatefulWidget {
 }
 
 class _IdeaCardState extends State<IdeaCard> {
-  bool isClick = true;
+  AssetImage lifeImage(double life) {
+    if (life <= 0) {
+      return const AssetImage('assets/image/life0.png');
+    } else if (life < 20) {
+      return const AssetImage('assets/image/life20.png');
+    } else if (life < 50) {
+      return const AssetImage('assets/image/life50.png');
+    } else {
+      return const AssetImage('assets/image/life100.png');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +47,7 @@ class _IdeaCardState extends State<IdeaCard> {
       ),
       // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
       content: Column(
         children: [
           Text(widget.idea.summary),
@@ -52,17 +62,15 @@ class _IdeaCardState extends State<IdeaCard> {
                   // color: Colors.red,
                   child: Row(
                     children: [
-                      SizedBox(
+                       SizedBox(
                         height: buttonSize,
                         width: buttonSize,
                         child: IconButton(
                           splashRadius: buttonSize,
-                          onPressed: () {
-                            print("123");
-                          },
+                          onPressed: null,
                           padding: const EdgeInsets.all(0),
-                          icon: const Image(
-                            image: AssetImage('assets/image/life50.png'),
+                          icon: Image(
+                            image: lifeImage(widget.idea.life),
                           ),
                         ),
                       ),
@@ -78,14 +86,14 @@ class _IdeaCardState extends State<IdeaCard> {
                   splashRadius: 30,
                   onPressed: () {
                     setState(() {
-                      isClick = ! isClick;
+                      widget.idea.isLike = !widget.idea.isLike;
                     });
                   },
                   padding: const EdgeInsets.all(0),
                   icon: Container(
                     foregroundDecoration: null,
                     child: Image(
-                      image: isClick
+                      image: widget.idea.isLike
                           ? const AssetImage('assets/image/like2.png')
                           : const AssetImage('assets/image/like2_empty.png'),
                     ),
