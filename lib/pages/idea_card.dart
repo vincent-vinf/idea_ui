@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
+import 'package:idea/pages/idea_info.dart';
 
 class IdeaCard extends StatefulWidget {
   final Idea idea;
@@ -41,9 +42,11 @@ class _IdeaCardState extends State<IdeaCard> {
   @override
   Widget build(BuildContext context) {
     const double buttonSize = 32;
-    return GestureDetector (
+    return GestureDetector(
       onTap: () {
-        debugPrint("tap");
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const IdeaInfo(),
+        ));
       },
       child: GFCard(
         boxFit: BoxFit.cover,
