@@ -1,3 +1,5 @@
+import 'package:idea/entity/comment.dart';
+
 class Idea {
   int id;
   int userId;
@@ -5,7 +7,7 @@ class Idea {
   String content;
   double life;
   bool isLike;
-  // List<Com>
+  List<Comment> comments = [];
 
   Idea(
       this.id, this.userId, this.summary, this.content, this.life, this.isLike);
@@ -22,5 +24,6 @@ class Idea {
 // "isLike": false
 // }
 Idea json2Idea(dynamic data) {
-  return Idea(data["ID"], data["userId"], data["simple"], data["content"], data["life"].toDouble(), data["isLike"]);
+  return Idea(data["ID"], data["userId"], data["simple"], data["content"],
+      data["life"].toDouble(), data["isLike"]);
 }

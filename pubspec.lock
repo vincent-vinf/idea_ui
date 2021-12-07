@@ -275,6 +275,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.6.3"
+  jwt_decoder:
+    dependency: "direct main"
+    description:
+      name: jwt_decoder
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.1"
   lints:
     dependency: transitive
     description:
@@ -317,6 +324,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.7.0"
+  modal_bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: modal_bottom_sheet
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   nested:
     dependency: transitive
     description:

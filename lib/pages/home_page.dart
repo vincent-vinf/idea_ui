@@ -6,6 +6,8 @@ import 'package:idea/pages/idea_card.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/space_header.dart';
 
+import 'idea_info.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -91,7 +93,16 @@ class _HomePageState extends State<HomePage> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return IdeaCard(idea: items[index]);
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => IdeaInfo(id: items[index].id),
+                        ));
+                      },
+                      child: IdeaCard(
+                        idea: items[index],
+                        isMarkdown: false,
+                      ));
                 },
                 childCount: _count,
               ),
