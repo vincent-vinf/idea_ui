@@ -45,7 +45,7 @@ class _IdeaCardState extends State<IdeaCard> {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const IdeaInfo(),
+          builder: (context) => IdeaInfo(id: widget.idea.id),
         ));
       },
       child: GFCard(

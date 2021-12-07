@@ -5,6 +5,7 @@ class Idea {
   String content;
   double life;
   bool isLike;
+  // List<Com>
 
   Idea(
       this.id, this.userId, this.summary, this.content, this.life, this.isLike);

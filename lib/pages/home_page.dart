@@ -72,7 +72,8 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {},
           ),
         ],
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white70,
+        foregroundColor: Colors.black,
         elevation: 50.0,
       ),
       body: Container(
