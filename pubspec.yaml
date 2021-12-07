@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.0.8
   jwt_decoder: ^2.0.1
   modal_bottom_sheet: ^2.0.0
+  cached_network_image: ^3.2.0
 
 #  material_floating_search_bar: ^0.3.6
 

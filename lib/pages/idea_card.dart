@@ -1,15 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
-import 'package:idea/util/floating_modal.dart';
+import 'package:idea/util/request.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class IdeaCard extends StatefulWidget {
   final Idea idea;
   final bool isMarkdown;
+  final Function? func;
 
-  const IdeaCard({Key? key, required this.idea, required this.isMarkdown})
+  const IdeaCard(
+      {Key? key, required this.idea, required this.isMarkdown, this.func})
       : super(key: key);
 
   @override
@@ -37,6 +40,12 @@ class _IdeaCardState extends State<IdeaCard>
     setState(() {});
   }
 
+  ImageProvider getImage() {
+    return AssetImage(UserHolder.blankUser.avatar);
+    // if (user == null) return AssetImage(UserHolder.blankUser.avatar);
+    // return CachedNetworkImageProvider(baseUrl + user!.avatar);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -53,8 +62,9 @@ class _IdeaCardState extends State<IdeaCard>
       showImage: true,
       title: GFListTile(
         avatar: GFAvatar(
-          backgroundImage: AssetImage(
-              user == null ? UserHolder.blankUser.avatar : user!.avatar),
+          // backgroundImage: AssetImage(
+          //     user == null ? UserHolder.blankUser.avatar : user!.avatar),
+          backgroundImage: getImage(),
           size: GFSize.SMALL,
         ),
         onTap: () {
@@ -130,19 +140,22 @@ class _IdeaCardState extends State<IdeaCard>
                 height: buttonSize,
                 width: buttonSize,
                 child: IconButton(
+                  // onPressed: () {
+                  //   showFloatingModalBottomSheet(
+                  //     context: context,
+                  //     builder: (context) => Container(
+                  //       child: TextField(
+                  //         autofocus: true,
+                  //         decoration: InputDecoration(
+                  //             labelText: "用户名",
+                  //             hintText: "用户名或邮箱",
+                  //             prefixIcon: Icon(Icons.person)),
+                  //       ),
+                  //     ),
+                  //   );
+                  // },
                   onPressed: () {
-                    showFloatingModalBottomSheet(
-                      context: context,
-                      builder: (context) => Container(
-                        child: TextField(
-                          autofocus: true,
-                          decoration: InputDecoration(
-                              labelText: "用户名",
-                              hintText: "用户名或邮箱",
-                              prefixIcon: Icon(Icons.person)),
-                        ),
-                      ),
-                    );
+                    if (widget.func != null) widget.func!(widget.idea.id);
                   },
                   splashRadius: buttonSize,
                   padding: const EdgeInsets.all(0),

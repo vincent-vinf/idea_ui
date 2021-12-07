@@ -4,6 +4,8 @@ import 'package:idea/entity/idea.dart';
 import 'package:idea/pages/idea_card.dart';
 import 'package:idea/util/request.dart';
 
+import 'comment_page.dart';
+
 class IdeaInfo extends StatefulWidget {
   final int id;
 
@@ -54,11 +56,37 @@ class _IdeaInfoState extends State<IdeaInfo> {
       ),
       body: _idea == null
           ? Container()
-          : Column(
-            children: [
-              IdeaCard(idea: _idea!, isMarkdown: true),
-            ],
+          : SingleChildScrollView(
+            child: Column(
+                children: [
+                  IdeaCard(idea: _idea!, isMarkdown: true),
+                  Column(
+                    children: buildComments(),
+                  ),
+                ],
+              ),
           ),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       _idea == null
+      //           ? IdeaCard(idea: Idea.blankIdea, isMarkdown: true)
+      //           : IdeaCard(idea: _idea!, isMarkdown: true),
+      //       Column(
+      //         children: buildComments(),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
+  }
+
+  List<Widget> buildComments() {
+    List<Widget> list = [];
+    if (_idea == null) return list;
+    for (Comment c in _idea!.comments) {
+      list.add(CommentPart(comment: c));
+    }
+    return list;
   }
 }

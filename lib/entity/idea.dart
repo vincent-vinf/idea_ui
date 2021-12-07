@@ -1,6 +1,7 @@
 import 'package:idea/entity/comment.dart';
 
 class Idea {
+  static final Idea blankIdea = Idea(0, 0, "", "", 0, false);
   int id;
   int userId;
   String summary;

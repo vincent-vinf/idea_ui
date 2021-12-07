@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:idea/util/token.dart';
 
-const _baseUrl = "http://idea.tclx.xyz";
+const baseUrl = "http://idea.tclx.xyz";
+// http://idea.tclx.xyz/home/wwwroot/idea.tclx.xyz/img/avatar_1.png
 late Dio _dio;
 
 void initRequest() {
@@ -28,7 +29,7 @@ void initRequest() {
         if (e.response?.statusCode == 401) {
           try {
             await Dio()
-                .get(_baseUrl + "/refresh_token",
+                .get(baseUrl + "/refresh_token",
                     options:
                         Options(headers: {"Authorization": 'Bearer $token'}))
                 .then((value) {
@@ -50,5 +51,5 @@ void initRequest() {
 }
 
 Future<Response> post(String path, Map<String, dynamic> map) async {
-  return await _dio.post(_baseUrl + path, data: map);
+  return await _dio.post(baseUrl + path, data: map);
 }
