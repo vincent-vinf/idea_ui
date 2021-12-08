@@ -8,10 +8,10 @@ import 'package:idea/util/request.dart';
 import 'comment_page.dart';
 
 class IdeaInfo extends StatefulWidget {
-  final int id;
   final bool? withComment;
+  final Idea idea;
 
-  const IdeaInfo({Key? key, required this.id, this.withComment})
+  const IdeaInfo({Key? key, required this.idea, this.withComment})
       : super(key: key);
 
   @override
@@ -19,19 +19,17 @@ class IdeaInfo extends StatefulWidget {
 }
 
 class _IdeaInfoState extends State<IdeaInfo> {
-  Idea? _idea;
 
   Future<void> getData() async {
-    final re = await post("/idea/get_idea_info", {"id": widget.id});
+    final re = await post("/idea/get_idea_info", {"id": widget.idea.id});
     if (re.statusCode == 200 && re.data["code"] == 0) {
-      Idea tmp = json2Idea(re.data["data"]);
+      // Idea tmp = json2Idea(re.data["data"]);
       for (int i = 0; i < re.data["data"]["comments"]["num"]; i++) {
-        tmp.comments.add(json2Comment(re.data["data"]["comments"]["list"][i]));
+        widget.idea.comments.add(json2Comment(re.data["data"]["comments"]["list"][i]));
       }
       setState(() {
-        _idea = tmp;
         if (widget.withComment != null && widget.withComment == true) {
-          showCommentDialog(_idea!.id);
+          showCommentDialog(widget.idea.id);
         }
       });
     }
@@ -82,18 +80,16 @@ class _IdeaInfoState extends State<IdeaInfo> {
         foregroundColor: Colors.black,
         elevation: 50.0,
       ),
-      body: _idea == null
-          ? Container()
-          : SingleChildScrollView(
+      body: SingleChildScrollView(
               child: Column(
                 children: [
                   IdeaCard(
-                    idea: _idea!,
+                    idea: widget.idea,
                     isMarkdown: true,
                     func: showCommentDialog,
                   ),
                   Text(
-                    diffTime(DateTime.now().difference(_idea!.createdAt)),
+                    diffTime(DateTime.now().difference(widget.idea.createdAt)),
                     style: const TextStyle(color: Colors.grey),
                   ),
                   Column(
@@ -110,8 +106,7 @@ class _IdeaInfoState extends State<IdeaInfo> {
 
   List<Widget> buildComments() {
     List<Widget> list = [];
-    if (_idea == null) return list;
-    for (Comment c in _idea!.comments) {
+    for (Comment c in widget.idea.comments) {
       list.add(CommentPart(comment: c));
     }
     return list;

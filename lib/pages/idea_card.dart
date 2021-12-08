@@ -47,6 +47,25 @@ class _IdeaCardState extends State<IdeaCard>
     return CachedNetworkImageProvider(baseUrl + user!.avatar);
   }
 
+  void changeLike() async {
+    String path = "";
+    if (widget.idea.isLike) {
+      path = "/idea/delete_like";
+    } else {
+      path = "/idea/create_like";
+    }
+    final re = await post(path, {"ideaId": widget.idea.id});
+    if (re.statusCode == 200 && re.data["code"] == 0) {
+      setState(() {
+        widget.idea.isLike = !widget.idea.isLike;
+      });
+      debugPrint("点赞:" + widget.idea.isLike.toString());
+
+    } else {
+      debugPrint("点赞/取消，失败！");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -118,11 +137,7 @@ class _IdeaCardState extends State<IdeaCard>
                 width: 26,
                 child: IconButton(
                   splashRadius: 30,
-                  onPressed: () {
-                    setState(() {
-                      widget.idea.isLike = !widget.idea.isLike;
-                    });
-                  },
+                  onPressed: changeLike,
                   padding: const EdgeInsets.all(0),
                   icon: Container(
                     foregroundDecoration: null,

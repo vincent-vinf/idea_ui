@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                   return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => IdeaInfo(id: items[index].id),
+                          builder: (context) => IdeaInfo(idea: items[index]),
                         ));
                       },
                       child: IdeaCard(
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                         isMarkdown: false,
                         func: (int id) {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IdeaInfo(id: items[index].id,withComment: true,),
+                            builder: (context) => IdeaInfo(idea: items[index],withComment: true,),
                           ));
                         },
                       ));

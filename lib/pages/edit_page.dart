@@ -126,7 +126,7 @@ class _EditPageState extends State<EditPage> {
                 (String value) => setState(() => _data = value),
                 _data,
                 label: 'Record your novel ideas here',
-                maxLines: 10,
+                maxLines: 12,
                 actions: MarkdownType.values,
                 controller: _textController,
               ),
