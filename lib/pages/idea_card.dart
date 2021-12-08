@@ -41,9 +41,10 @@ class _IdeaCardState extends State<IdeaCard>
   }
 
   ImageProvider getImage() {
-    return AssetImage(UserHolder.blankUser.avatar);
-    // if (user == null) return AssetImage(UserHolder.blankUser.avatar);
-    // return CachedNetworkImageProvider(baseUrl + user!.avatar);
+    // return AssetImage(UserHolder.blankUser.avatar);
+    if (user == null) return AssetImage(UserHolder.blankUser.avatar);
+    print(user!.avatar);
+    return CachedNetworkImageProvider(baseUrl + user!.avatar);
   }
 
   @override

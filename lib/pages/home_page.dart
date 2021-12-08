@@ -102,6 +102,11 @@ class _HomePageState extends State<HomePage> {
                       child: IdeaCard(
                         idea: items[index],
                         isMarkdown: false,
+                        func: (int id) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => IdeaInfo(id: items[index].id,withComment: true,),
+                          ));
+                        },
                       ));
                 },
                 childCount: _count,

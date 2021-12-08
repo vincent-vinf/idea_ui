@@ -22,11 +22,11 @@ class UserHolder {
       });
       if (re.statusCode == 200 && re.data["code"] == 0) {
         final t = re.data["data"][0];
-        User u = User(t["ID"], t["username"], "assets/image/test.jpg");
+        User u = User(t["ID"], t["username"], t["avatar"]);
         _map[id] = u;
         return u;
       } else {
-        print("get user error!");
+        // print("get user error!");
         return blankUser;
       }
     }
