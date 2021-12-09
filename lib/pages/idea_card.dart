@@ -9,10 +9,13 @@ import 'package:markdown_widget/markdown_widget.dart';
 class IdeaCard extends StatefulWidget {
   final Idea idea;
   final bool isMarkdown;
-  final Function? func;
+  final Function? commentFunc;
 
   const IdeaCard(
-      {Key? key, required this.idea, required this.isMarkdown, this.func})
+      {Key? key,
+      required this.idea,
+      required this.isMarkdown,
+      this.commentFunc})
       : super(key: key);
 
   @override
@@ -60,7 +63,6 @@ class _IdeaCardState extends State<IdeaCard>
         widget.idea.isLike = !widget.idea.isLike;
       });
       debugPrint("点赞:" + widget.idea.isLike.toString());
-
     } else {
       debugPrint("点赞/取消，失败！");
     }
@@ -75,6 +77,9 @@ class _IdeaCardState extends State<IdeaCard>
   @override
   Widget build(BuildContext context) {
     const double buttonSize = 32;
+    if (user != null && widget.idea.userId != user!.id) {
+      getUser();
+    }
     return GFCard(
       boxFit: BoxFit.cover,
       titlePosition: GFPosition.start,
@@ -87,9 +92,7 @@ class _IdeaCardState extends State<IdeaCard>
           backgroundImage: getImage(),
           size: GFSize.SMALL,
         ),
-        onTap: () {
-          debugPrint("tap user");
-        },
+        onTap: null,
         titleText: user == null ? UserHolder.blankUser.name : user!.name,
         // subTitle: Text("dad"),
         padding: const EdgeInsets.all(0),
@@ -149,37 +152,26 @@ class _IdeaCardState extends State<IdeaCard>
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 8,
-              ),
-              SizedBox(
-                height: buttonSize,
-                width: buttonSize,
-                child: IconButton(
-                  // onPressed: () {
-                  //   showFloatingModalBottomSheet(
-                  //     context: context,
-                  //     builder: (context) => Container(
-                  //       child: TextField(
-                  //         autofocus: true,
-                  //         decoration: InputDecoration(
-                  //             labelText: "用户名",
-                  //             hintText: "用户名或邮箱",
-                  //             prefixIcon: Icon(Icons.person)),
-                  //       ),
-                  //     ),
-                  //   );
-                  // },
-                  onPressed: () {
-                    if (widget.func != null) widget.func!(widget.idea.id);
-                  },
-                  splashRadius: buttonSize,
-                  padding: const EdgeInsets.all(0),
-                  icon: const Image(
-                    image: AssetImage('assets/image/comment.png'),
-                  ),
-                ),
-              ),
+              widget.commentFunc == null
+                  ? Container()
+                  : Container(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: SizedBox(
+                        height: buttonSize,
+                        width: buttonSize,
+                        child: IconButton(
+                          onPressed: () {
+                            if (widget.commentFunc != null)
+                              widget.commentFunc!(widget.idea.id);
+                          },
+                          splashRadius: buttonSize,
+                          padding: const EdgeInsets.all(0),
+                          icon: const Image(
+                            image: AssetImage('assets/image/comment.png'),
+                          ),
+                        ),
+                      ),
+                    ),
             ],
           )
         ],

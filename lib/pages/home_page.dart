@@ -39,12 +39,12 @@ class _HomePageState extends State<HomePage> {
       return;
     }
     if (re.statusCode == 200 && re.data["code"] == 0) {
-      cnt = re.data["data"]["num"];
+
+      setState(() {cnt = re.data["data"]["num"];
       for (int i = 0; i < cnt; i++) {
         tmp.add(json2Idea(re.data["data"]["list"][i]));
       }
       _total = re.data["data"]["total"];
-      setState(() {
         if (!isLoad) {
           items = tmp;
           _count = tmp.length;
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                       child: IdeaCard(
                         idea: items[index],
                         isMarkdown: false,
-                        func: (int id) {
+                        commentFunc: (int id) {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => IdeaInfo(idea: items[index],withComment: true,),
                           ));

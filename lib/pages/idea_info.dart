@@ -19,15 +19,19 @@ class IdeaInfo extends StatefulWidget {
 }
 
 class _IdeaInfoState extends State<IdeaInfo> {
-
   Future<void> getData() async {
     final re = await post("/idea/get_idea_info", {"id": widget.idea.id});
     if (re.statusCode == 200 && re.data["code"] == 0) {
       // Idea tmp = json2Idea(re.data["data"]);
-      for (int i = 0; i < re.data["data"]["comments"]["num"]; i++) {
-        widget.idea.comments.add(json2Comment(re.data["data"]["comments"]["list"][i]));
-      }
+
+      (re.data["data"]["comments"] as List).map((e) => widget.idea.comments.add(json2Comment(e)));
+
+      // for (int i = 0; i < re.data["data"]["num"]; i++) {
+      //   widget.idea.comments
+      //       .add(json2Comment(re.data["data"]["comments"]["list"][i]));
+      // }
       setState(() {
+        // print(widget.withComment);
         if (widget.withComment != null && widget.withComment == true) {
           showCommentDialog(widget.idea.id);
         }
@@ -81,26 +85,26 @@ class _IdeaInfoState extends State<IdeaInfo> {
         elevation: 50.0,
       ),
       body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  IdeaCard(
-                    idea: widget.idea,
-                    isMarkdown: true,
-                    func: showCommentDialog,
-                  ),
-                  Text(
-                    diffTime(DateTime.now().difference(widget.idea.createdAt)),
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  Column(
-                    children: buildComments(),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
+        child: Column(
+          children: [
+            IdeaCard(
+              idea: widget.idea,
+              isMarkdown: true,
+              commentFunc: showCommentDialog,
             ),
+            Text(
+              diffTime(DateTime.now().difference(widget.idea.createdAt)),
+              style: const TextStyle(color: Colors.grey),
+            ),
+            Column(
+              children: buildComments(),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
