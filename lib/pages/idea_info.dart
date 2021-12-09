@@ -173,6 +173,8 @@ class _IdeaInfoState extends State<IdeaInfo> {
         comment: c,
         withReply: true,
         onTapFunc: editPostComment,
+        callRefresh: getData,
+        fatherId: 0,
       ));
     }
     return list;

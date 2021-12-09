@@ -1,22 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:idea/entity/comment.dart';
 import 'package:idea/entity/user.dart';
+import 'package:idea/util/floating_modal.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/time_string.dart';
+import 'package:idea/util/token.dart';
 
 class CommentPart extends StatefulWidget {
   final Comment comment;
   final bool withReply;
+  final int fatherId;
   final Function onTapFunc;
 
-  const CommentPart(
-      {Key? key,
-      required this.comment,
-      required this.withReply,
-      required this.onTapFunc})
-      : super(key: key);
+  final Function? callRefresh;
+
+  const CommentPart({
+    Key? key,
+    required this.comment,
+    required this.withReply,
+    required this.onTapFunc,
+    required this.fatherId,
+    this.callRefresh,
+  }) : super(key: key);
 
   @override
   _CommentPartState createState() => _CommentPartState();
@@ -42,6 +50,63 @@ class _CommentPartState extends State<CommentPart> {
     return CachedNetworkImageProvider(baseUrl + user!.avatar);
   }
 
+  Future<void> deleteComment(int commentId) async {
+    final re = await post("/idea/delete_comment", {"id": commentId});
+    if (re.statusCode == 200 && re.data["code"] == 0) {
+      Fluttertoast.showToast(
+        msg: "删除评论成功",
+      );
+      if (widget.callRefresh != null) {
+        widget.callRefresh!();
+      }
+    } else {
+      Fluttertoast.showToast(
+        msg: "删除评论失败!",
+      );
+    }
+  }
+
+  void showMoreMenu() {
+    showFloatingModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return selfID == widget.comment.userId
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text('删除评论'),
+                    leading: const Icon(Icons.delete),
+                    onTap: () {
+                      deleteComment(widget.comment.id);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text('拉入黑名单'),
+                    leading: const Icon(Icons.delete),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('举报'),
+                    leading: const Icon(Icons.report_problem),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -55,8 +120,13 @@ class _CommentPartState extends State<CommentPart> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.onTapFunc(
-            widget.comment.ideaId, widget.comment.userId, widget.comment.id);
+        if (widget.withReply) {
+          widget.onTapFunc(
+              widget.comment.ideaId, widget.comment.userId, widget.comment.id);
+        } else {
+          widget.onTapFunc(
+              widget.comment.ideaId, widget.comment.userId, widget.fatherId);
+        }
       },
       child: Container(
         padding: const EdgeInsets.fromLTRB(22, 10, 0, 10),
@@ -85,7 +155,8 @@ class _CommentPartState extends State<CommentPart> {
                     child: IconButton(
                       splashRadius: 20,
                       onPressed: () {
-                        ///TODO 删除自己的评论，拉黑？
+                        ///TODO 拉黑？
+                        showMoreMenu();
                       },
                       padding: const EdgeInsets.all(0),
                       icon: Container(
@@ -144,11 +215,11 @@ class _CommentPartState extends State<CommentPart> {
     final List<Widget> list = [];
     if (widget.comment.reply == null) return list;
     for (Comment e in widget.comment.reply!) {
-      e.id = widget.comment.id;
       list.add(CommentPart(
         comment: e,
         withReply: false,
         onTapFunc: widget.onTapFunc,
+        fatherId: widget.comment.id,
       ));
     }
     return list;
