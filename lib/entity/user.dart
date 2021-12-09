@@ -20,7 +20,9 @@ class UserHolder {
       final re = await post("/user/get_user_info", {
         "ids": [id]
       });
-      if (re.statusCode == 200 && re.data["code"] == 0) {
+      if (re.statusCode == 200 &&
+          re.data["code"] == 0 &&
+          re.data["data"] != null) {
         final t = re.data["data"][0];
         User u = User(t["ID"], t["username"], t["avatar"]);
         _map[id] = u;

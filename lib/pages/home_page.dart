@@ -8,6 +8,11 @@ import 'package:idea/util/space_header.dart';
 
 import 'idea_info.dart';
 
+/// TODO
+/// []点赞数
+/// []发布页
+/// []点击用户跳转到用户页
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 

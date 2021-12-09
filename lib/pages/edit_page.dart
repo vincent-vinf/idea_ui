@@ -31,23 +31,23 @@ class _EditPageState extends State<EditPage> {
   Future<void> publicIdea() async {
     if (_data.length < 8) {
       Fluttertoast.showToast(
-          msg: "idea太短",
-         );
+        msg: "idea太短",
+      );
       return;
     }
     try {
       final re = await post("/idea/create_idea", {"content": _data});
       if (re.statusCode == 200 && re.data["code"] == 0) {
         Fluttertoast.showToast(
-            msg: "发布idea成功",
-            );
+          msg: "发布idea成功",
+        );
         Navigator.pop(context);
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       Fluttertoast.showToast(
-          msg: "发布idea失败",
-          );
+        msg: "发布idea失败",
+      );
     }
   }
 

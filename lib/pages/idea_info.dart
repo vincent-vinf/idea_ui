@@ -151,12 +151,20 @@ class _IdeaInfoState extends State<IdeaInfo> {
               diffTime(DateTime.now().difference(widget.idea.createdAt)),
               style: const TextStyle(color: Colors.grey),
             ),
-            Container(
-              padding: const EdgeInsets.only(right: 10),
-              child: Column(
-                children: buildComments(),
-              ),
-            ),
+            widget.idea.comments.isEmpty
+                ? Container(
+                    child: const Text(
+                      "暂无评论",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                  )
+                : Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Column(
+                      children: buildComments(),
+                    ),
+                  ),
             const SizedBox(
               height: 30,
             ),
