@@ -30,12 +30,7 @@ class _HomePageState extends State<HomePage> {
     if (isLoad && _total <= _count) {
       Fluttertoast.showToast(
           msg: "没有更多啦!",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.black,
-          fontSize: 16.0);
+          );
       return;
     }
     if (re.statusCode == 200 && re.data["code"] == 0) {

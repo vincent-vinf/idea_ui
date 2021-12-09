@@ -11,12 +11,12 @@ class IdeaCard extends StatefulWidget {
   final bool isMarkdown;
   final Function? commentFunc;
 
-  const IdeaCard(
-      {Key? key,
-      required this.idea,
-      required this.isMarkdown,
-      this.commentFunc})
-      : super(key: key);
+  const IdeaCard({
+    Key? key,
+    required this.idea,
+    required this.isMarkdown,
+    this.commentFunc,
+  }) : super(key: key);
 
   @override
   _IdeaCardState createState() => _IdeaCardState();
@@ -27,7 +27,8 @@ class _IdeaCardState extends State<IdeaCard>
   User? user;
 
   AssetImage lifeImage(double life) {
-    if (life <= 0) {
+    // print("life: " + life.toString());
+    if (life <= 0.5) {
       return const AssetImage('assets/image/life0.png');
     } else if (life < 20) {
       return const AssetImage('assets/image/life20.png');
@@ -46,7 +47,7 @@ class _IdeaCardState extends State<IdeaCard>
   ImageProvider getImage() {
     // return AssetImage(UserHolder.blankUser.avatar);
     if (user == null) return AssetImage(UserHolder.blankUser.avatar);
-    print(user!.avatar);
+    // print(user!.avatar);
     return CachedNetworkImageProvider(baseUrl + user!.avatar);
   }
 
@@ -130,7 +131,7 @@ class _IdeaCardState extends State<IdeaCard>
                           ),
                         ),
                       ),
-                      Text(widget.idea.life.floor().toString())
+                      Text(widget.idea.life.toStringAsFixed(1))
                     ],
                   ),
                 ),
@@ -161,8 +162,9 @@ class _IdeaCardState extends State<IdeaCard>
                         width: buttonSize,
                         child: IconButton(
                           onPressed: () {
-                            if (widget.commentFunc != null)
+                            if (widget.commentFunc != null) {
                               widget.commentFunc!(widget.idea.id);
+                            }
                           },
                           splashRadius: buttonSize,
                           padding: const EdgeInsets.all(0),

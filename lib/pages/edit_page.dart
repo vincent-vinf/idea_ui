@@ -32,12 +32,7 @@ class _EditPageState extends State<EditPage> {
     if (_data.length < 8) {
       Fluttertoast.showToast(
           msg: "idea太短",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.black,
-          fontSize: 16.0);
+         );
       return;
     }
     try {
@@ -45,24 +40,14 @@ class _EditPageState extends State<EditPage> {
       if (re.statusCode == 200 && re.data["code"] == 0) {
         Fluttertoast.showToast(
             msg: "发布idea成功",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.black,
-            fontSize: 16.0);
+            );
         Navigator.pop(context);
       }
     } catch (e) {
       print(e);
       Fluttertoast.showToast(
           msg: "发布idea失败",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+          );
     }
   }
 
