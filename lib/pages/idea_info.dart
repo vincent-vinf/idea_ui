@@ -4,6 +4,7 @@ import 'package:idea/entity/comment.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/pages/idea_card.dart';
 import 'package:idea/util/request.dart';
+import 'package:idea/util/time_string.dart';
 
 import 'comment_page.dart';
 
@@ -22,32 +23,24 @@ class _IdeaInfoState extends State<IdeaInfo> {
   Future<void> getData() async {
     final re = await post("/idea/get_idea_info", {"id": widget.idea.id});
     if (re.statusCode == 200 && re.data["code"] == 0) {
-      // Idea tmp = json2Idea(re.data["data"]);
+      final List<Comment> tmp = [];
+      for (var e in (re.data["data"]["comments"] as List)) {
+        Comment c = json2Comment(e);
+        List<Comment> replys = [];
+        for (var r in (e["replys"] as List)) {
+          replys.add(json2Comment(r));
+        }
+        c.reply = replys;
+        tmp.add(c);
+      }
 
-      (re.data["data"]["comments"] as List).map((e) => widget.idea.comments.add(json2Comment(e)));
+      widget.idea.comments = tmp;
 
-      // for (int i = 0; i < re.data["data"]["num"]; i++) {
-      //   widget.idea.comments
-      //       .add(json2Comment(re.data["data"]["comments"]["list"][i]));
-      // }
       setState(() {
-        // print(widget.withComment);
         if (widget.withComment != null && widget.withComment == true) {
           showCommentDialog(widget.idea.id);
         }
       });
-    }
-  }
-
-  String diffTime(Duration d) {
-    if (d.inSeconds < 60) {
-      return d.inSeconds.toString() + "秒前";
-    } else if (d.inMinutes < 60) {
-      return d.inMinutes.toString() + "分钟前";
-    } else if (d.inHours < 24) {
-      return d.inHours.toString() + "小时前";
-    } else {
-      return d.inDays.toString() + "天前";
     }
   }
 
@@ -69,6 +62,8 @@ class _IdeaInfoState extends State<IdeaInfo> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.idea.comments.length);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("idea"),
@@ -96,8 +91,11 @@ class _IdeaInfoState extends State<IdeaInfo> {
               diffTime(DateTime.now().difference(widget.idea.createdAt)),
               style: const TextStyle(color: Colors.grey),
             ),
-            Column(
-              children: buildComments(),
+            Container(
+              padding: const EdgeInsets.only(right: 10),
+              child: Column(
+                children: buildComments(),
+              ),
             ),
             const SizedBox(
               height: 30,
@@ -111,7 +109,10 @@ class _IdeaInfoState extends State<IdeaInfo> {
   List<Widget> buildComments() {
     List<Widget> list = [];
     for (Comment c in widget.idea.comments) {
-      list.add(CommentPart(comment: c));
+      list.add(CommentPart(
+        comment: c,
+        withReply: true,
+      ));
     }
     return list;
   }
