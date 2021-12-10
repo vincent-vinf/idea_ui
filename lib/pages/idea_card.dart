@@ -10,15 +10,18 @@ class IdeaCard extends StatefulWidget {
   final Idea idea;
   final bool isMarkdown;
   final Function? commentFunc;
-  final bool? onlyText;
+  final bool? onlyText, disableLike;
+  final double? fixHeight;
 
-  const IdeaCard({
-    Key? key,
-    required this.idea,
-    required this.isMarkdown,
-    this.commentFunc,
-    this.onlyText,
-  }) : super(key: key);
+  const IdeaCard(
+      {Key? key,
+      required this.idea,
+      required this.isMarkdown,
+      this.commentFunc,
+      this.onlyText,
+      this.disableLike,
+      this.fixHeight})
+      : super(key: key);
 
   @override
   _IdeaCardState createState() => _IdeaCardState();
@@ -113,7 +116,8 @@ class _IdeaCardState extends State<IdeaCard>
                   children:
                       MarkdownGenerator(data: widget.idea.content).widgets!,
                 )
-              : Text(widget.idea.summary),
+              : Container(
+                  height: widget.fixHeight, child: Text(widget.idea.summary)),
           const SizedBox(
             height: 8,
           ),
@@ -142,7 +146,8 @@ class _IdeaCardState extends State<IdeaCard>
                   ),
                 ),
               ),
-              widget.onlyText != null && widget.onlyText == true
+              (widget.onlyText != null && widget.onlyText == true) ||
+                      (widget.disableLike != null && widget.disableLike == true)
                   ? Container()
                   : SizedBox(
                       height: 26,

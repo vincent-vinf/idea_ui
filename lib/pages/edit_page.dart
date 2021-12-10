@@ -20,7 +20,8 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   final FlipCardController _flipController = FlipCardController();
   final TextEditingController _textController = TextEditingController();
-
+  List<Idea> similarIdeas = [];
+  DateTime _preRefreshTime = DateTime.now();
   String _data = "";
 
   @override
@@ -51,13 +52,36 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-  Widget similarIdeas() {
+  Future<void> refreshSimilarIdeas() async {
+    // setState(() {
+    //   similarIdeas = [Idea.blankIdea, Idea.blankIdea, Idea.blankIdea];
+    // });
+    // return;
+    final re = await post("/idea/get_similar_ideas", {"text": _data});
+    if (re.statusCode == 200 && re.data["code"] == 0) {
+      if (re.data["data"] != null) {
+        final List<Idea> tmp = [];
+        for (var i in (re.data["data"] as List)) {
+          Idea t = json2Idea(i);
+          tmp.add(t);
+        }
+
+        setState(() {
+          similarIdeas = tmp;
+        });
+      }
+    }
+  }
+
+  Widget similarIdeasWidget() {
     final customLayoutOption = CustomLayoutOption(startIndex: -1, stateCount: 3)
-        .addRotate([-25.0 / 180, 0.0, 25.0 / 180]).addTranslate(
-            [Offset(-350.0, 0.0), Offset(0.0, 0.0), Offset(350.0, 0.0)]);
+        .addRotate([-25.0 / 180, 0.0, 25.0 / 180]).addTranslate([
+      const Offset(-150.0, 0.0),
+      const Offset(0.0, 0.0),
+      const Offset(150.0, 0.0)
+    ]);
 
     int _currentIndex = 0;
-    int _itemCount = 3;
 
     return Swiper(
       onTap: (int index) {
@@ -77,28 +101,28 @@ class _EditPageState extends State<EditPage> {
       // controller: _controller,
       layout: SwiperLayout.TINDER,
       outer: true,
-      itemHeight: 300.0,
+      itemHeight: 250.0,
       // viewportFraction: _viewportFraction,
       // autoplayDelay: _autoplayDelay,
       // loop: _loop,
       // autoplay: _autoplay,
       itemBuilder: _buildIdeaCard,
-      itemCount: _itemCount,
+      itemCount: similarIdeas.length,
       scrollDirection: Axis.horizontal,
       indicatorLayout: PageIndicatorLayout.COLOR,
-      // autoplayDisableOnInteraction: _autoplayDisableOnInteraction,
-      // pagination: SwiperPagination(
-      //     builder: const DotSwiperPaginationBuilder(
-      //         size: 20.0, activeSize: 20.0, space: 10.0)),
     );
-    // return IdeaCard(idea: Idea.blankIdea, isMarkdown: false);
   }
 
   Widget _buildIdeaCard(BuildContext context, int index) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IdeaCard(idea: Idea.blankIdea, isMarkdown: false),
+        IdeaCard(
+          idea: similarIdeas[index],
+          isMarkdown: false,
+          disableLike: true,
+          fixHeight: 88,
+        ),
       ],
     );
   }
@@ -120,7 +144,7 @@ class _EditPageState extends State<EditPage> {
         actions: [
           TextButton(
             onPressed: publicIdea,
-            child: Text("发布"),
+            child: const Text("发布"),
           ),
         ],
       ),
@@ -163,7 +187,17 @@ class _EditPageState extends State<EditPage> {
                     data: _data == "" ? "Here is empty" : _data,
                   )),
               front: MarkdownTextInput(
-                (String value) => setState(() => _data = value),
+                (String value) => setState(() {
+                  _data = value;
+                  if (_data.length >= 8 &&
+                      DateTime.now()
+                              .difference(_preRefreshTime)
+                              .inMilliseconds >
+                          1000) {
+                    refreshSimilarIdeas();
+                    _preRefreshTime = DateTime.now();
+                  }
+                }),
                 _data,
                 label: 'Record your novel ideas here',
                 maxLines: 12,
@@ -172,7 +206,7 @@ class _EditPageState extends State<EditPage> {
               ),
             ),
           ),
-          similarIdeas(),
+          similarIdeas.isNotEmpty ? similarIdeasWidget() : Container(),
         ],
       ),
     );

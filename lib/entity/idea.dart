@@ -28,13 +28,13 @@ class Idea {
 // }
 Idea json2Idea(dynamic data) {
   // print(DateTime.parse(data["CreatedAt"]).toString());
-  return Idea(
-      data["ID"],
-      data["userId"],
-      data["simple"],
-      data["content"],
-      data["life"].toDouble(),
-      data["isLike"],
-      DateTime.parse(data["CreatedAt"]),
-      data["likeCount"]);
+  Idea i = Idea(data["ID"], data["userId"], data["simple"], data["content"],
+      data["life"].toDouble(), false, DateTime.parse(data["CreatedAt"]), 0);
+  if (data["likeCount"] != null) {
+    i.likeCount = data["likeCount"];
+  }
+  if (data["isLike"] != null) {
+    i.isLike = data["isLike"];
+  }
+  return i;
 }
