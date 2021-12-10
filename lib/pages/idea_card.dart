@@ -10,12 +10,14 @@ class IdeaCard extends StatefulWidget {
   final Idea idea;
   final bool isMarkdown;
   final Function? commentFunc;
+  final bool? onlyText;
 
   const IdeaCard({
     Key? key,
     required this.idea,
     required this.isMarkdown,
     this.commentFunc,
+    this.onlyText,
   }) : super(key: key);
 
   @override
@@ -46,8 +48,9 @@ class _IdeaCardState extends State<IdeaCard>
 
   ImageProvider getImage() {
     // return AssetImage(UserHolder.blankUser.avatar);
-    if (user == null || user!.id == 0)
+    if (user == null || user!.id == 0) {
       return AssetImage(UserHolder.blankUser.avatar);
+    }
     // print(user!.avatar);
     return CachedNetworkImageProvider(baseUrl + user!.avatar);
   }
@@ -87,18 +90,20 @@ class _IdeaCardState extends State<IdeaCard>
       titlePosition: GFPosition.start,
       // padding: EdgeInsets.only(bottom: 0),
       showImage: true,
-      title: GFListTile(
-        avatar: GFAvatar(
-          // backgroundImage: AssetImage(
-          //     user == null ? UserHolder.blankUser.avatar : user!.avatar),
-          backgroundImage: getImage(),
-          size: GFSize.SMALL,
-        ),
-        onTap: null,
-        titleText: user == null ? UserHolder.blankUser.name : user!.name,
-        // subTitle: Text("dad"),
-        padding: const EdgeInsets.all(0),
-      ),
+      title: widget.onlyText != null && widget.onlyText == true
+          ? const GFListTile()
+          : GFListTile(
+              avatar: GFAvatar(
+                // backgroundImage: AssetImage(
+                //     user == null ? UserHolder.blankUser.avatar : user!.avatar),
+                backgroundImage: getImage(),
+                size: GFSize.SMALL,
+              ),
+              onTap: null,
+              titleText: user == null ? UserHolder.blankUser.name : user!.name,
+              // subTitle: Text("dad"),
+              padding: const EdgeInsets.all(0),
+            ),
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -137,23 +142,26 @@ class _IdeaCardState extends State<IdeaCard>
                   ),
                 ),
               ),
-              SizedBox(
-                height: 26,
-                width: 26,
-                child: IconButton(
-                  splashRadius: 30,
-                  onPressed: changeLike,
-                  padding: const EdgeInsets.all(0),
-                  icon: Container(
-                    foregroundDecoration: null,
-                    child: Image(
-                      image: widget.idea.isLike
-                          ? const AssetImage('assets/image/like2.png')
-                          : const AssetImage('assets/image/like2_empty.png'),
+              widget.onlyText != null && widget.onlyText == true
+                  ? Container()
+                  : SizedBox(
+                      height: 26,
+                      width: 26,
+                      child: IconButton(
+                        splashRadius: 30,
+                        onPressed: changeLike,
+                        padding: const EdgeInsets.all(0),
+                        icon: Container(
+                          foregroundDecoration: null,
+                          child: Image(
+                            image: widget.idea.isLike
+                                ? const AssetImage('assets/image/like2.png')
+                                : const AssetImage(
+                                    'assets/image/like2_empty.png'),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
               widget.commentFunc == null
                   ? Container()
                   : Container(
