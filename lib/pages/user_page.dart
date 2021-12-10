@@ -9,6 +9,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
 import 'package:idea/entity/user_info.dart';
+import 'package:timelines/timelines.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -39,6 +40,7 @@ class _UserPageState extends State<UserPage> {
                 children: [
                   Expanded(
                       child: Container(
+                        height: 200.0,
                     alignment: Alignment.center,
                     margin: const EdgeInsets.all(4.0),
                     child: GFImageOverlay(
@@ -98,72 +100,72 @@ class _UserPageState extends State<UserPage> {
                   ))
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    alignment: Alignment.centerLeft,
-                    // width: 20.0,
-                    // height: 20.0,
-                    margin: const EdgeInsets.all(4.0),
-                    child: Text(
-                      "26",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0),
-                    ),
-                  )),
-                  Expanded(
-                      child: Container(
-                    alignment: Alignment.centerLeft,
-
-                    // width: 20.0,
-                    // height: 20.0,
-                    // margin: const EdgeInsets.all(4.0),
-                    child: Text(
-                      "10月",
-                      style: TextStyle(color: Colors.black, fontSize: 15.0),
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: GFCard(
-                    color: Colors.white30,
-                    height: 150.0,
-                    titlePosition: GFPosition.start,
-                    title: GFListTile(
-                      subTitle: Text("个人资料0%"),
-                    ),
-                    buttonBar: GFButtonBar(
-                      children: [
-                        GFButton(
-                          onPressed: () {},
-                          text: '点子',
-                        ),
-                      ],
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: GFCard(
-                    color: Colors.white,
-                    height: 200.0,
-                    content: Text(
-                        "hi~我是思考者1678288号,2021年12月6日是我降落的第1天.希望遇到和我同频率的脑电波~"),
-                    // title: GFListTile(
-                    //   title: Text("新人报道",style: TextStyle(color: Colors.black,fontSize: 15.0),),
-                    //   subTitle: Text("11:04:02公开",style: TextStyle(color: Colors.grey,fontSize: 10.0),),
-                    // ),
-                  )),
-                ],
-              )
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child: Container(
+              //       alignment: Alignment.centerLeft,
+              //       // width: 20.0,
+              //       // height: 20.0,
+              //       margin: const EdgeInsets.all(4.0),
+              //       child: Text(
+              //         "26",
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontWeight: FontWeight.bold,
+              //             fontSize: 20.0),
+              //       ),
+              //     )),
+              //     Expanded(
+              //         child: Container(
+              //       alignment: Alignment.centerLeft,
+              //
+              //       // width: 20.0,
+              //       // height: 20.0,
+              //       // margin: const EdgeInsets.all(4.0),
+              //       child: Text(
+              //         "10月",
+              //         style: TextStyle(color: Colors.black, fontSize: 15.0),
+              //       ),
+              //     )),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child: GFCard(
+              //       color: Colors.white30,
+              //       height: 150.0,
+              //       titlePosition: GFPosition.start,
+              //       title: GFListTile(
+              //         subTitle: Text("个人资料0%"),
+              //       ),
+              //       buttonBar: GFButtonBar(
+              //         children: [
+              //           GFButton(
+              //             onPressed: () {},
+              //             text: '点子',
+              //           ),
+              //         ],
+              //       ),
+              //     )),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //         child: GFCard(
+              //       color: Colors.white,
+              //       height: 200.0,
+              //       content: Text(
+              //           "hi~我是思考者1678288号,2021年12月6日是我降落的第1天.希望遇到和我同频率的脑电波~"),
+              //       // title: GFListTile(
+              //       //   title: Text("新人报道",style: TextStyle(color: Colors.black,fontSize: 15.0),),
+              //       //   subTitle: Text("11:04:02公开",style: TextStyle(color: Colors.grey,fontSize: 10.0),),
+              //       // ),
+              //     )),
+              //   ],
+              // )
             ]),
           )
         ],
