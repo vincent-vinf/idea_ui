@@ -1,22 +1,34 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
+import 'package:idea/util/request.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 
 class IdeaCard extends StatefulWidget {
   final Idea idea;
+  final bool isMarkdown;
+  final Function? commentFunc;
 
-  const IdeaCard({Key? key, required this.idea}) : super(key: key);
+  const IdeaCard({
+    Key? key,
+    required this.idea,
+    required this.isMarkdown,
+    this.commentFunc,
+  }) : super(key: key);
 
   @override
   _IdeaCardState createState() => _IdeaCardState();
 }
 
-class _IdeaCardState extends State<IdeaCard> {
+class _IdeaCardState extends State<IdeaCard>
+    with SingleTickerProviderStateMixin {
   User? user;
 
   AssetImage lifeImage(double life) {
-    if (life <= 0) {
+    // print("life: " + life.toString());
+    if (life <= 0.5) {
       return const AssetImage('assets/image/life0.png');
     } else if (life < 20) {
       return const AssetImage('assets/image/life20.png');
@@ -32,6 +44,32 @@ class _IdeaCardState extends State<IdeaCard> {
     setState(() {});
   }
 
+  ImageProvider getImage() {
+    // return AssetImage(UserHolder.blankUser.avatar);
+    if (user == null || user!.id == 0)
+      return AssetImage(UserHolder.blankUser.avatar);
+    // print(user!.avatar);
+    return CachedNetworkImageProvider(baseUrl + user!.avatar);
+  }
+
+  void changeLike() async {
+    String path = "";
+    if (widget.idea.isLike) {
+      path = "/idea/delete_like";
+    } else {
+      path = "/idea/create_like";
+    }
+    final re = await post(path, {"ideaId": widget.idea.id});
+    if (re.statusCode == 200 && re.data["code"] == 0) {
+      setState(() {
+        widget.idea.isLike = !widget.idea.isLike;
+      });
+      debugPrint("点赞:" + widget.idea.isLike.toString());
+    } else {
+      debugPrint("点赞/取消，失败！");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,103 +79,105 @@ class _IdeaCardState extends State<IdeaCard> {
   @override
   Widget build(BuildContext context) {
     const double buttonSize = 32;
-    return GestureDetector (
-      onTap: () {
-        debugPrint("tap");
-      },
-      child: GFCard(
-        boxFit: BoxFit.cover,
-        titlePosition: GFPosition.start,
-        showImage: true,
-        title: GFListTile(
-          avatar: GFAvatar(
-            backgroundImage: AssetImage(
-                user == null ? UserHolder.blankUser.avatar : user!.avatar),
-            size: GFSize.SMALL,
-          ),
-          onTap: () {
-            debugPrint("tap user");
-          },
-          titleText: user == null ? UserHolder.blankUser.name : user!.name,
-          // subTitle: Text("dad"),
-          padding: const EdgeInsets.all(0),
+    if (user != null && widget.idea.userId != user!.id) {
+      getUser();
+    }
+    return GFCard(
+      boxFit: BoxFit.cover,
+      titlePosition: GFPosition.start,
+      // padding: EdgeInsets.only(bottom: 0),
+      showImage: true,
+      title: GFListTile(
+        avatar: GFAvatar(
+          // backgroundImage: AssetImage(
+          //     user == null ? UserHolder.blankUser.avatar : user!.avatar),
+          backgroundImage: getImage(),
+          size: GFSize.SMALL,
         ),
-        // padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        // margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-        content: Column(
-          children: [
-            Text(widget.idea.summary),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    // color: Colors.red,
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          height: buttonSize,
-                          width: buttonSize,
-                          child: IconButton(
-                            splashRadius: buttonSize,
-                            onPressed: null,
-                            padding: const EdgeInsets.all(0),
-                            icon: Image(
-                              image: lifeImage(widget.idea.life),
-                            ),
+        onTap: null,
+        titleText: user == null ? UserHolder.blankUser.name : user!.name,
+        // subTitle: Text("dad"),
+        padding: const EdgeInsets.all(0),
+      ),
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          widget.isMarkdown
+              ? Column(
+                  children:
+                      MarkdownGenerator(data: widget.idea.content).widgets!,
+                )
+              : Text(widget.idea.summary),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  // color: Colors.red,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: buttonSize,
+                        width: buttonSize,
+                        child: IconButton(
+                          splashRadius: buttonSize,
+                          onPressed: null,
+                          padding: const EdgeInsets.all(0),
+                          icon: Image(
+                            image: lifeImage(widget.idea.life),
                           ),
                         ),
-                        Text(widget.idea.life.floor().toString())
-                      ],
+                      ),
+                      Text(widget.idea.life.toStringAsFixed(1))
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 26,
+                width: 26,
+                child: IconButton(
+                  splashRadius: 30,
+                  onPressed: changeLike,
+                  padding: const EdgeInsets.all(0),
+                  icon: Container(
+                    foregroundDecoration: null,
+                    child: Image(
+                      image: widget.idea.isLike
+                          ? const AssetImage('assets/image/like2.png')
+                          : const AssetImage('assets/image/like2_empty.png'),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 26,
-                  width: 26,
-                  child: IconButton(
-                    splashRadius: 30,
-                    onPressed: () {
-                      setState(() {
-                        widget.idea.isLike = !widget.idea.isLike;
-                      });
-                    },
-                    padding: const EdgeInsets.all(0),
-                    icon: Container(
-                      foregroundDecoration: null,
-                      child: Image(
-                        image: widget.idea.isLike
-                            ? const AssetImage('assets/image/like2.png')
-                            : const AssetImage('assets/image/like2_empty.png'),
+              ),
+              widget.commentFunc == null
+                  ? Container()
+                  : Container(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: SizedBox(
+                        height: buttonSize,
+                        width: buttonSize,
+                        child: IconButton(
+                          onPressed: () {
+                            if (widget.commentFunc != null) {
+                              widget.commentFunc!(widget.idea.id);
+                            }
+                          },
+                          splashRadius: buttonSize,
+                          padding: const EdgeInsets.all(0),
+                          icon: const Image(
+                            image: AssetImage('assets/image/comment.png'),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                SizedBox(
-                  height: buttonSize,
-                  width: buttonSize,
-                  child: IconButton(
-                    onPressed: () {
-                      print("3");
-                    },
-                    splashRadius: buttonSize,
-                    padding: const EdgeInsets.all(0),
-                    icon: const Image(
-                      image: AssetImage('assets/image/comment.png'),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+            ],
+          )
+        ],
       ),
     );
   }

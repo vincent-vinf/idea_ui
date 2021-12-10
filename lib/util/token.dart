@@ -1,15 +1,22 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 const storage = FlutterSecureStorage();
 
 const tokenKey = "token";
 String token = "";
+int selfID = 0;
 
 Future<void> getToken() async {
   // await delToken();
   final tmp = await storage.read(key: tokenKey);
   if (tmp != null) {
     token = tmp;
+    if (token != "") {
+      final decodedToken = JwtDecoder.decode(token);
+      selfID = int.parse(decodedToken["id"]);
+      // print(selfID);
+    }
   }
 }
 

@@ -6,6 +6,13 @@ import 'package:idea/pages/idea_card.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/space_header.dart';
 
+import 'idea_info.dart';
+
+/// TODO
+/// []点赞数
+/// []发布页
+/// []点击用户跳转到用户页
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -28,21 +35,16 @@ class _HomePageState extends State<HomePage> {
     if (isLoad && _total <= _count) {
       Fluttertoast.showToast(
           msg: "没有更多啦!",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.black,
-          fontSize: 16.0);
+          );
       return;
     }
     if (re.statusCode == 200 && re.data["code"] == 0) {
-      cnt = re.data["data"]["num"];
+
+      setState(() {cnt = re.data["data"]["num"];
       for (int i = 0; i < cnt; i++) {
         tmp.add(json2Idea(re.data["data"]["list"][i]));
       }
       _total = re.data["data"]["total"];
-      setState(() {
         if (!isLoad) {
           items = tmp;
           _count = tmp.length;
@@ -72,7 +74,8 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {},
           ),
         ],
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white70,
+        foregroundColor: Colors.black,
         elevation: 50.0,
       ),
       body: Container(
@@ -90,7 +93,21 @@ class _HomePageState extends State<HomePage> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return IdeaCard(idea: items[index]);
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => IdeaInfo(idea: items[index]),
+                        ));
+                      },
+                      child: IdeaCard(
+                        idea: items[index],
+                        isMarkdown: false,
+                        commentFunc: (int id) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => IdeaInfo(idea: items[index],withComment: true,),
+                          ));
+                        },
+                      ));
                 },
                 childCount: _count,
               ),

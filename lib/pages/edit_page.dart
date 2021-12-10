@@ -1,7 +1,10 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:idea/entity/idea.dart';
+import 'package:idea/pages/idea_card.dart';
 import 'package:idea/util/request.dart';
 import 'package:markdown_editable_textinput/format_markdown.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
@@ -26,41 +29,78 @@ class _EditPageState extends State<EditPage> {
   }
 
   Future<void> publicIdea() async {
-    if(_data.length<8){
+    if (_data.length < 8) {
       Fluttertoast.showToast(
-          msg: "idea太短",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.black,
-          fontSize: 16.0);
+        msg: "idea太短",
+      );
       return;
     }
     try {
       final re = await post("/idea/create_idea", {"content": _data});
       if (re.statusCode == 200 && re.data["code"] == 0) {
         Fluttertoast.showToast(
-            msg: "发布idea成功",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.black,
-            fontSize: 16.0);
+          msg: "发布idea成功",
+        );
         Navigator.pop(context);
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       Fluttertoast.showToast(
-          msg: "发布idea失败",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+        msg: "发布idea失败",
+      );
     }
+  }
+
+  Widget similarIdeas() {
+    final customLayoutOption = CustomLayoutOption(startIndex: -1, stateCount: 3)
+        .addRotate([-25.0 / 180, 0.0, 25.0 / 180]).addTranslate(
+            [Offset(-350.0, 0.0), Offset(0.0, 0.0), Offset(350.0, 0.0)]);
+
+    int _currentIndex = 0;
+    int _itemCount = 3;
+
+    return Swiper(
+      onTap: (int index) {
+        print(index);
+      },
+      customLayoutOption: customLayoutOption,
+      // fade: _fade,
+      index: _currentIndex,
+      onIndexChanged: (int index) {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+      curve: Curves.ease,
+      scale: 0.8,
+      itemWidth: 800.0,
+      // controller: _controller,
+      layout: SwiperLayout.TINDER,
+      outer: true,
+      itemHeight: 300.0,
+      // viewportFraction: _viewportFraction,
+      // autoplayDelay: _autoplayDelay,
+      // loop: _loop,
+      // autoplay: _autoplay,
+      itemBuilder: _buildIdeaCard,
+      itemCount: _itemCount,
+      scrollDirection: Axis.horizontal,
+      indicatorLayout: PageIndicatorLayout.COLOR,
+      // autoplayDisableOnInteraction: _autoplayDisableOnInteraction,
+      // pagination: SwiperPagination(
+      //     builder: const DotSwiperPaginationBuilder(
+      //         size: 20.0, activeSize: 20.0, space: 10.0)),
+    );
+    // return IdeaCard(idea: Idea.blankIdea, isMarkdown: false);
+  }
+
+  Widget _buildIdeaCard(BuildContext context, int index) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IdeaCard(idea: Idea.blankIdea, isMarkdown: false),
+      ],
+    );
   }
 
   @override
@@ -126,12 +166,13 @@ class _EditPageState extends State<EditPage> {
                 (String value) => setState(() => _data = value),
                 _data,
                 label: 'Record your novel ideas here',
-                maxLines: 10,
+                maxLines: 12,
                 actions: MarkdownType.values,
                 controller: _textController,
               ),
             ),
           ),
+          similarIdeas(),
         ],
       ),
     );
