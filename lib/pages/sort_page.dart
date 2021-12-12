@@ -92,6 +92,9 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
             mainAxisSize: MainAxisSize.min,
             children: [
               TabBar(
+                unselectedLabelColor: Colors.grey,
+                indicatorColor:   Colors.grey,
+                labelColor:   Colors.black,
                 controller: tabController,
                 isScrollable: true,
                 tabs: const [
@@ -99,7 +102,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                     child: Text(
                       "热门分类",
                       style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
@@ -109,7 +112,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                     child: Text(
                       "全部分类",
                       style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
@@ -119,7 +122,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                     child: Text(
                       "标签活动",
                       style: TextStyle(
-                        color: Colors.black,
+                        // color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
