@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/card/gf_card.dart';
 import 'package:getwidget/getwidget.dart';
@@ -5,6 +7,7 @@ import 'package:idea/entity/sort.dart';
 
 class IdeaSort extends StatefulWidget{
   final Sort sort;
+
   const IdeaSort({Key? key,required this.sort}) : super(key: key);
 
   @override
@@ -17,13 +20,59 @@ class IdeaSort extends StatefulWidget{
 class _IdeaSortState extends State<IdeaSort> {
   @override
   Widget build(BuildContext context) {
-    return const GFCard(
-      boxFit: BoxFit.cover,
-      titlePosition: GFPosition.start,
-      showOverlayImage: true,
-      imageOverlay: AssetImage("assets/image/test.jpg"),
-      title: GFListTile(
-        subTitle: Text("有价值的坏结果",style: TextStyle(color: Colors.white,fontSize: 10.0),),
+    // return GFCard(
+    //   boxFit: BoxFit.cover,
+    //   titlePosition: GFPosition.start,
+    //   showOverlayImage: true,
+    //   imageOverlay: AssetImage(widget.sort.img),
+    //   title: GFListTile(
+    //     subTitle: Text(widget.sort.content,style: TextStyle(color: Colors.white,fontSize: 24.0,fontWeight: FontWeight.bold),),
+    //   ),
+    // );
+    return Expanded(
+      flex: 1,
+      child:  Container(
+        height: 150,
+        child: Column(
+          children: <Widget>[
+            Container(
+              // height: flag?null:this.height,
+              height: 140,
+              child: Stack(
+                children: <Widget>[
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Stack(
+                        children: <Widget>[
+                          Image.asset(widget.sort.img,fit: BoxFit.cover,height:140,width: double.infinity,),
+                          BackdropFilter(
+                            filter: new ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+                            child: new Container(
+                              color: Colors.black.withOpacity(0.3),
+                            ),
+                          )
+                        ],
+                      )
+                  ),
+                  // Positioned(
+                  //   left: 20,
+                  //   top: 20,
+                  //   child:  Icon(this.icon,color:Colors.white,size: 32,),
+                  // ),
+                  Positioned(
+                      left: 80,
+                      top: 52,
+                      child:  Text(widget.sort.content,style: TextStyle(
+                          color:Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
+                      ))
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

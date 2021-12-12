@@ -46,43 +46,43 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
         children: [
           const Text(
             "关注的标签",
-            style: TextStyle(color: Colors.grey, fontSize: 15.0),
+            style: TextStyle(color: Colors.grey, fontSize: 17.0),
           ),
           Container(
-            height: 150.0,
+            height: 170.0,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
                 Container(
                   width: 200.0,
                   height: 150.0,
-                  margin: const EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.all(10.0),
                   child: IdeaSort(
-                    sort: Sort("1", "1"),
+                    sort: Sort("军事", "assets/image/sort/military.png"),
                   ),
                 ),
                 Container(
                   width: 200.0,
                   height: 150.0,
-                  margin: const EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.all(10.0),
                   child: IdeaSort(
-                    sort: Sort("1", "1"),
+                    sort: Sort("体育", "assets/image/sort/sports.png"),
                   ),
                 ),
                 Container(
                   width: 200.0,
                   height: 150.0,
-                  margin: const EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.all(10.0),
                   child: IdeaSort(
-                    sort: Sort("1", "1"),
+                    sort: Sort("社会", "assets/image/sort/social.png"),
                   ),
                 ),
                 Container(
                   width: 200.0,
                   height: 150.0,
-                  margin: const EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.all(10.0),
                   child: IdeaSort(
-                    sort: Sort("1", "1"),
+                    sort: Sort("科技", "assets/image/sort/technology.png"),
                   ),
                 )
               ],
@@ -97,7 +97,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                 tabs: const [
                   Tab(
                     child: Text(
-                      "推荐标签",
+                      "热门分类",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                 ],
               ),
               SizedBox(
-                height: 400,
+                height: 900,
                 child: TabBarView(
                   controller: tabController,
                   // children: [
@@ -158,9 +158,9 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                                 child: Container(
                                   width: 200.0,
                                   height: 150.0,
-                                  margin: const EdgeInsets.all(4.0),
+                                  margin: const EdgeInsets.all(10.0),
                                   child: IdeaSort(
-                                    sort: Sort("1", "1"),
+                                    sort: Sort("科技", "assets/image/sort/technology.png"),
                                   ),
                                 ),
                               ),
@@ -168,9 +168,9 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                                 child: Container(
                                   width: 200.0,
                                   height: 150.0,
-                                  margin: const EdgeInsets.all(4.0),
+                                  margin: const EdgeInsets.all(10.0),
                                   child: IdeaSort(
-                                    sort: Sort("1", "1"),
+                                    sort: Sort("灾难", "assets/image/sort/disaster.png"),
                                   ),
                                 ),
                               ),
@@ -182,9 +182,9 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                                 child: Container(
                                   width: 200.0,
                                   height: 150.0,
-                                  margin: const EdgeInsets.all(4.0),
+                                  margin: const EdgeInsets.all(10.0),
                                   child: IdeaSort(
-                                    sort: Sort("1", "1"),
+                                    sort: Sort("教育", "assets/image/sort/education.png"),
                                   ),
                                 ),
                               ),
@@ -192,9 +192,9 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                                 child: Container(
                                   width: 200.0,
                                   height: 150.0,
-                                  margin: const EdgeInsets.all(4.0),
+                                  margin: const EdgeInsets.all(10.0),
                                   child: IdeaSort(
-                                    sort: Sort("1", "1"),
+                                    sort: Sort("社会", "assets/image/sort/social.png"),
                                   ),
                                 ),
                               )
@@ -203,8 +203,133 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-                    Center(
-                      child: Text("页面A"),
+                    SizedBox(
+                      height: 300,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(10.0),
+                                  child: IdeaSort(
+                                    sort: Sort("体育", "assets/image/sort/sports.png"),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(10.0),
+                                  child: IdeaSort(
+                                    sort: Sort("军事", "assets/image/sort/military.png"),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("娱乐", "assets/image/sort/entertainment.png"),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("政治", "assets/image/sort/political.png"),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("教育", "assets/image/sort/education.png"),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("灾难", "assets/image/sort/disaster.png"),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("社会", "assets/image/sort/social.png"),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("科技", "assets/image/sort/technology.png"),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("财经", "assets/image/sort/business.png"),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: 200.0,
+                                  height: 150.0,
+                                  margin: const EdgeInsets.all(8.0),
+                                  child: IdeaSort(
+                                    sort: Sort("违法", "assets/image/sort/illegal.png"),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                     Center(
                       child: Text("页面A"),
