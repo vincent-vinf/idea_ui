@@ -12,29 +12,52 @@ import 'package:idea/entity/user.dart';
 import 'package:idea/entity/user_info.dart';
 import 'package:idea/pages/idea_card.dart';
 import 'package:idea/util/request.dart';
+import 'package:idea/util/token.dart';
 import 'package:timelines/timelines.dart';
 import 'package:intl/intl.dart';
 
 //  Divider(height: 1.0), // 分割线
 
 class UserPage extends StatefulWidget {
-  const UserPage({Key? key}) : super(key: key);
+  final int? id;
+
+  const UserPage({Key? key, this.id}) : super(key: key);
 
   @override
   _UserPageState createState() => _UserPageState();
 }
 
 class _UserPageState extends State<UserPage> {
-  User? user;
+  User? _user;
   final List<Idea> _list = [Idea.blankIdea, Idea.blankIdea, Idea.blankIdea];
 
   ImageProvider getImage() {
     // return AssetImage(UserHolder.blankUser.avatar);
-    if (user == null || user!.id == 0) {
+    if (_user == null || _user!.id == 0) {
       return AssetImage(UserHolder.blankUser.avatar);
     }
     // print(user!.avatar);
-    return CachedNetworkImageProvider(baseUrl + user!.avatar);
+    return CachedNetworkImageProvider(baseUrl + _user!.avatar);
+  }
+
+  Future<void> getUser() async {
+    if (widget.id == null) {
+      _user = await UserHolder.getUser(selfID);
+    } else {
+      _user = await UserHolder.getUser(widget.id!);
+    }
+    setState(() {});
+  }
+
+  void getSelfIdea() {
+    
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+    getSelfIdea();
   }
 
   @override
@@ -44,7 +67,9 @@ class _UserPageState extends State<UserPage> {
       child: Column(
         children: [
           Container(
-            height: 300.0,
+            height: widget.id == null || widget.id == selfID || widget.id == 0
+                ? 200
+                : 300,
             // color: Colors.white,
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -60,13 +85,10 @@ class _UserPageState extends State<UserPage> {
                       child: Container(
                         height: 100.0,
                         alignment: Alignment.center,
-                        margin: const EdgeInsets.all(25.0),
-                        child: const GFImageOverlay(
-                          height: 100,
-                          width: 100,
-                          shape: BoxShape.circle,
-                          image: AssetImage('assets/image/user.png'),
-                          boxFit: BoxFit.cover,
+                        margin: const EdgeInsets.all(15.0),
+                        child: GFAvatar(
+                          backgroundImage: getImage(),
+                          size: 50,
                         ),
                       ),
                     ),
@@ -75,41 +97,52 @@ class _UserPageState extends State<UserPage> {
                 Row(
                   children: [
                     Expanded(
-                        child: Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.all(4.0),
-                      height: 30.0,
-                      child: Text(
-                        "思考者1678288号",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0),
-                      ),
-                    ))
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
                       child: Container(
                         alignment: Alignment.center,
-                          margin: const EdgeInsets.all(10.0),
-                        // height: 20.0,
-                        child: TextButton(
-                          onPressed: () {  },
-                          child: Text("关注",style: TextStyle(color: Colors.white,),),
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(8, 4, 8, 4)),
-                            side:
-                              MaterialStateProperty.all(BorderSide(color: Colors.white,width: 1)),
-
+                        margin: const EdgeInsets.all(4.0),
+                        height: 30.0,
+                        child: Text(
+                          _user == null
+                              ? UserHolder.blankUser.name
+                              : _user!.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
                           ),
-                        )
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
+                widget.id == null || widget.id == selfID || widget.id == 0
+                    ? Container()
+                    : Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.all(10.0),
+                                // height: 20.0,
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "关注",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        const EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                                    side: MaterialStateProperty.all(
+                                        const BorderSide(
+                                            color: Colors.white, width: 1)),
+                                  ),
+                                )),
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),
@@ -140,18 +173,25 @@ class _UserPageState extends State<UserPage> {
                         Row(
                           children: [
                             Text(
-                              DateFormat("dd").format(_list[index].createdAt).toString(),
-                              style: DefaultTextStyle.of(context).style.copyWith(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold
-                              ),
+                              DateFormat("dd")
+                                  .format(_list[index].createdAt)
+                                  .toString(),
+                              style: DefaultTextStyle.of(context)
+                                  .style
+                                  .copyWith(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              DateFormat(" MM").format(_list[index].createdAt).toString() + "月",
-                              style: DefaultTextStyle.of(context).style.copyWith(
-                                fontSize: 14.0,
-                                  fontWeight: FontWeight.bold
-                              ),
+                              DateFormat(" MM")
+                                      .format(_list[index].createdAt)
+                                      .toString() +
+                                  "月",
+                              style: DefaultTextStyle.of(context)
+                                  .style
+                                  .copyWith(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
                             ),
                             // Text(
                             //   DateFormat("MM-dd HH:mm").format(_list[index].createdAt).toString(),
@@ -182,7 +222,8 @@ class _UserPageState extends State<UserPage> {
                             color: Colors.grey.withOpacity(0.4),
                             spreadRadius: 1,
                             blurRadius: 1,
-                            offset: Offset(2, 2), // changes position of shadow
+                            offset: const Offset(
+                                2, 2), // changes position of shadow
                           ),
                         ],
                       ),
