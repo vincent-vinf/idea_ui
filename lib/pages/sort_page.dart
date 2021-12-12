@@ -42,12 +42,20 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+
       child: Column(
+
         children: [
-          const Text(
-            "关注的标签",
-            style: TextStyle(color: Colors.grey, fontSize: 17.0),
+          Container(
+            alignment: Alignment(-1,0),
+            margin: EdgeInsets.only(left: 10,top: 8),
+            child: const Text(
+              "关注的标签",
+              style: TextStyle(color: Colors.grey, fontSize: 17.0),
+
+            ),
           ),
+
           Container(
             height: 170.0,
             child: ListView(
@@ -344,6 +352,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
           ),
         ],
       ),
+
     );
   }
 }

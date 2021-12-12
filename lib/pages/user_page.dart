@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/button/gf_button.dart';
@@ -10,7 +11,9 @@ import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
 import 'package:idea/entity/user_info.dart';
 import 'package:idea/pages/idea_card.dart';
+import 'package:idea/util/request.dart';
 import 'package:timelines/timelines.dart';
+import 'package:intl/intl.dart';
 
 //  Divider(height: 1.0), // 分割线
 
@@ -22,7 +25,17 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  User? user;
   final List<Idea> _list = [Idea.blankIdea, Idea.blankIdea, Idea.blankIdea];
+
+  ImageProvider getImage() {
+    // return AssetImage(UserHolder.blankUser.avatar);
+    if (user == null || user!.id == 0) {
+      return AssetImage(UserHolder.blankUser.avatar);
+    }
+    // print(user!.avatar);
+    return CachedNetworkImageProvider(baseUrl + user!.avatar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +48,7 @@ class _UserPageState extends State<UserPage> {
             // color: Colors.white,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/image/test.jpg"),
+                image: AssetImage("assets/image/img.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -47,8 +60,8 @@ class _UserPageState extends State<UserPage> {
                       child: Container(
                         height: 100.0,
                         alignment: Alignment.center,
-                        margin: const EdgeInsets.all(4.0),
-                        child: GFImageOverlay(
+                        margin: const EdgeInsets.all(25.0),
+                        child: const GFImageOverlay(
                           height: 100,
                           width: 100,
                           shape: BoxShape.circle,
@@ -81,11 +94,18 @@ class _UserPageState extends State<UserPage> {
                     Expanded(
                       child: Container(
                         alignment: Alignment.center,
-                        height: 20.0,
-                        child: Text(
-                          "思考者1678288号",
-                          style: TextStyle(color: Colors.black, fontSize: 15.0),
-                        ),
+                          margin: const EdgeInsets.all(10.0),
+                        // height: 20.0,
+                        child: TextButton(
+                          onPressed: () {  },
+                          child: Text("关注",style: TextStyle(color: Colors.white,),),
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                            side:
+                              MaterialStateProperty.all(BorderSide(color: Colors.white,width: 1)),
+
+                          ),
+                        )
                       ),
                     ),
                   ],
@@ -117,11 +137,29 @@ class _UserPageState extends State<UserPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          _list[index].createdAt.toString(),
-                          style: DefaultTextStyle.of(context).style.copyWith(
-                                fontSize: 18.0,
+                        Row(
+                          children: [
+                            Text(
+                              DateFormat("dd").format(_list[index].createdAt).toString(),
+                              style: DefaultTextStyle.of(context).style.copyWith(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold
                               ),
+                            ),
+                            Text(
+                              DateFormat(" MM").format(_list[index].createdAt).toString() + "月",
+                              style: DefaultTextStyle.of(context).style.copyWith(
+                                fontSize: 14.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            // Text(
+                            //   DateFormat("MM-dd HH:mm").format(_list[index].createdAt).toString(),
+                            //   style: DefaultTextStyle.of(context).style.copyWith(
+                            //     fontSize: 18.0,
+                            //   ),
+                            // ),
+                          ],
                         ),
                         IdeaCard(
                           idea: _list[index],
