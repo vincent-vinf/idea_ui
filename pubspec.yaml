@@ -52,6 +52,7 @@ dependencies:
   card_swiper: ^1.0.4
   timelines: ^0.1.0
   intl: ^0.17.0
+  google_nav_bar: ^5.0.5
 
 #  material_floating_search_bar: ^0.3.6
 

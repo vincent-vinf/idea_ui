@@ -6,6 +6,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
 import 'package:idea/pages/idea_card.dart';
+import 'package:idea/pages/user_info.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/token.dart';
 import 'package:timelines/timelines.dart';
@@ -108,11 +109,7 @@ class _UserPageState extends State<UserPage> {
       child: Column(
         children: [
           Container(
-            height: widget.userId == null ||
-                    widget.userId == selfID ||
-                    widget.userId == 0
-                ? 200
-                : 300,
+            height: 280,
             // color: Colors.white,
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -161,7 +158,37 @@ class _UserPageState extends State<UserPage> {
                 widget.userId == null ||
                         widget.userId == selfID ||
                         widget.userId == 0
-                    ? Container()
+                    ? Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(10.0),
+                              // height: 20.0,
+                              child: TextButton(
+                                onPressed: (){
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => UserInfo(),
+                                  ));
+                                },
+                                child: const Text(
+                                  "编辑资料",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                      const EdgeInsets.fromLTRB(8, 4, 8, 4)),
+                                  side: MaterialStateProperty.all(
+                                      const BorderSide(
+                                          color: Colors.white, width: 1)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     : Row(
                         children: [
                           Expanded(
