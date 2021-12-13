@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
+import 'package:idea/pages/user_page.dart';
 import 'package:idea/util/request.dart';
+import 'package:intl/intl.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class IdeaCard extends StatefulWidget {
@@ -91,10 +93,9 @@ class _IdeaCardState extends State<IdeaCard>
     return GFCard(
       boxFit: BoxFit.cover,
       titlePosition: GFPosition.start,
-      // padding: EdgeInsets.only(bottom: 0),
       showImage: true,
       title: widget.onlyText != null && widget.onlyText == true
-          ? const GFListTile()
+          ? null
           : GFListTile(
               avatar: GFAvatar(
                 // backgroundImage: AssetImage(
@@ -102,7 +103,33 @@ class _IdeaCardState extends State<IdeaCard>
                 backgroundImage: getImage(),
                 size: GFSize.SMALL,
               ),
-              onTap: null,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) {
+                    return Scaffold(
+                      appBar: PreferredSize(
+                        preferredSize: const Size.fromHeight(50.0),
+                        child: AppBar(
+                          backgroundColor: Colors.white,
+                          leading: IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ),
+                      body: UserPage(
+                        userId: widget.idea.userId,
+                      ),
+                    );
+                  }),
+                );
+              },
               titleText: user == null ? UserHolder.blankUser.name : user!.name,
               // subTitle: Text("dad"),
               padding: const EdgeInsets.all(0),
@@ -116,7 +143,7 @@ class _IdeaCardState extends State<IdeaCard>
                   children:
                       MarkdownGenerator(data: widget.idea.content).widgets!,
                 )
-              : Container(
+              : SizedBox(
                   height: widget.fixHeight, child: Text(widget.idea.summary)),
           const SizedBox(
             height: 8,
@@ -148,7 +175,10 @@ class _IdeaCardState extends State<IdeaCard>
               ),
               (widget.onlyText != null && widget.onlyText == true) ||
                       (widget.disableLike != null && widget.disableLike == true)
-                  ? Container()
+                  ? Text(
+                      DateFormat("hh:mm").format(widget.idea.createdAt),
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    )
                   : SizedBox(
                       height: 26,
                       width: 26,

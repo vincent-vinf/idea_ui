@@ -127,17 +127,18 @@ class _IdeaInfoState extends State<IdeaInfo> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("idea"),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.search),
-        //     tooltip: 'Setting Icon',
-        //     onPressed: () {},
-        //   ),
-        // ],
-
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Colors.white70,
         foregroundColor: Colors.black,
-        elevation: 50.0,
+        elevation: 6,
       ),
       body: SingleChildScrollView(
         child: Column(

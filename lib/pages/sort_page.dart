@@ -44,7 +44,7 @@ class _SortPageState extends State<SortPage> with TickerProviderStateMixin {
             alignment: const Alignment(-1, 0),
             margin: const EdgeInsets.only(left: 10, top: 8),
             child: const Text(
-              "关注的标签",
+              "关注的分类",
               style: TextStyle(color: Colors.grey, fontSize: 17.0),
             ),
           ),

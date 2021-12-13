@@ -17,15 +17,6 @@ class IdeaSort extends StatefulWidget {
 class _IdeaSortState extends State<IdeaSort> {
   @override
   Widget build(BuildContext context) {
-    // return GFCard(
-    //   boxFit: BoxFit.cover,
-    //   titlePosition: GFPosition.start,
-    //   showOverlayImage: true,
-    //   imageOverlay: AssetImage(widget.sort.img),
-    //   title: GFListTile(
-    //     subTitle: Text(widget.sort.content,style: TextStyle(color: Colors.white,fontSize: 24.0,fontWeight: FontWeight.bold),),
-    //   ),
-    // );
     return SizedBox(
       // height: flag?null:this.height,
       height: 140,
@@ -49,19 +40,13 @@ class _IdeaSortState extends State<IdeaSort> {
                   )
                 ],
               )),
-          // Positioned(
-          //   left: 20,
-          //   top: 20,
-          //   child:  Icon(this.icon,color:Colors.white,size: 32,),
-          // ),
-          Positioned(
-              left: 80,
-              top: 52,
-              child: Text(widget.sort.content,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold)))
+          Center(
+            child: Text(widget.sort.content,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+          )
         ],
       ),
     );

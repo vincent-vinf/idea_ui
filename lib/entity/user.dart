@@ -4,12 +4,13 @@ class User {
   int id;
   String name;
   String avatar;
+  bool isFollow;
 
-  User(this.id, this.name, this.avatar);
+  User(this.id, this.name, this.avatar, this.isFollow);
 }
 
 class UserHolder {
-  static User blankUser = User(0, " ", "assets/image/blank.png");
+  static User blankUser = User(0, " ", "assets/image/blank.png", false);
 
   static final Map _map = {};
 
@@ -24,7 +25,7 @@ class UserHolder {
           re.data["code"] == 0 &&
           re.data["data"] != null) {
         final t = re.data["data"][0];
-        User u = User(t["ID"], t["username"], t["avatar"]);
+        User u = User(t["ID"], t["username"], t["avatar"], t["isFollow"]);
         _map[id] = u;
         return u;
       } else {

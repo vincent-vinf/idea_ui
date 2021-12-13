@@ -130,23 +130,26 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50.0),
+        child: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          actions: [
+            TextButton(
+              onPressed: publicIdea,
+              child: const Text("发布"),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: publicIdea,
-            child: const Text("发布"),
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

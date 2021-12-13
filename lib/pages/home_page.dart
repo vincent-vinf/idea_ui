@@ -11,7 +11,6 @@ import 'idea_info.dart';
 /// TODO
 /// []点赞数
 /// []发布页
-/// []点击用户跳转到用户页
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -34,17 +33,17 @@ class _HomePageState extends State<HomePage> {
     List<Idea> tmp = [];
     if (isLoad && _total <= _count) {
       Fluttertoast.showToast(
-          msg: "没有更多啦!",
-          );
+        msg: "没有更多啦!",
+      );
       return;
     }
     if (re.statusCode == 200 && re.data["code"] == 0) {
-
-      setState(() {cnt = re.data["data"]["num"];
-      for (int i = 0; i < cnt; i++) {
-        tmp.add(json2Idea(re.data["data"]["list"][i]));
-      }
-      _total = re.data["data"]["total"];
+      setState(() {
+        cnt = re.data["data"]["num"];
+        for (int i = 0; i < cnt; i++) {
+          tmp.add(json2Idea(re.data["data"]["list"][i]));
+        }
+        _total = re.data["data"]["total"];
         if (!isLoad) {
           items = tmp;
           _count = tmp.length;
@@ -65,18 +64,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("idea"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Setting Icon',
-            onPressed: () {},
-          ),
-        ],
-        backgroundColor: Colors.white70,
-        foregroundColor: Colors.black,
-        elevation: 50.0,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(50.0),
+        child: AppBar(
+          title: const Text("idea"),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.search),
+              tooltip: 'Setting Icon',
+              onPressed: () {},
+            ),
+          ],
+          // backgroundColor: Colors.white70,
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+
+          // elevation: 6,
+        ),
       ),
       body: Container(
         color: Colors.blueGrey,
@@ -104,7 +108,10 @@ class _HomePageState extends State<HomePage> {
                         isMarkdown: false,
                         commentFunc: (int id) {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IdeaInfo(idea: items[index],withComment: true,),
+                            builder: (context) => IdeaInfo(
+                              idea: items[index],
+                              withComment: true,
+                            ),
                           ));
                         },
                       ));

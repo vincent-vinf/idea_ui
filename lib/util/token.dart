@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -15,7 +16,7 @@ Future<void> getToken() async {
     if (token != "") {
       final decodedToken = JwtDecoder.decode(token);
       selfID = int.parse(decodedToken["id"]);
-      // print(selfID);
+      debugPrint("selfID: " + selfID.toString());
     }
   }
 }
