@@ -43,9 +43,8 @@ class _HomePageState extends State<HomePage> {
     }
     if (re.statusCode == 200 && re.data["code"] == 0) {
       setState(() {
-        cnt = re.data["data"]["num"];
-        for (int i = 0; i < cnt; i++) {
-          tmp.add(json2Idea(re.data["data"]["list"][i]));
+        for (var e in (re.data["data"]["list"] as List)){
+          tmp.add(json2Idea(e));
         }
         _total = re.data["data"]["total"];
         if (!isLoad) {
@@ -137,7 +136,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(80, 5, 80, 5),
+            margin: const EdgeInsets.fromLTRB(100, 5, 100, 5),
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
@@ -195,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                   _selectedIndex = index;
                   if (index == 0) {
                     _dataSrc = "/idea/get_idea_list";
-                  } else {
+                  } else if (index == 1) {
                     _dataSrc = "/idea/get_follow_idea_list";
                   }
                   getIdeaList(false);

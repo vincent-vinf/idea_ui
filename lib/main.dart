@@ -9,7 +9,7 @@ import 'package:idea/util/token.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await getToken();
+  await getDiskToken();
   initRequest();
   runApp(const MyApp());
 }
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'IDEA',
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),

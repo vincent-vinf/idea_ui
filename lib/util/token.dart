@@ -8,25 +8,26 @@ const tokenKey = "token";
 String token = "";
 int selfID = 0;
 
-Future<void> getToken() async {
+Future<void> getDiskToken() async {
   // await delToken();
   final tmp = await storage.read(key: tokenKey);
   if (tmp != null) {
-    token = tmp;
-    if (token != "") {
-      final decodedToken = JwtDecoder.decode(token);
-      selfID = int.parse(decodedToken["id"]);
-      debugPrint("selfID: " + selfID.toString());
-    }
+    setToken(tmp);
   }
 }
 
 Future<void> setToken(String newToken) async {
   token = newToken;
-  await storage.write(key: tokenKey, value: newToken);
+  if (token != "") {
+    final decodedToken = JwtDecoder.decode(token);
+    selfID = int.parse(decodedToken["id"]);
+    debugPrint("selfID: " + selfID.toString());
+    await storage.write(key: tokenKey, value: newToken);
+  }
 }
 
 Future<void> delToken() async {
+  selfID = 0;
   token = "";
   await storage.delete(key: tokenKey);
 }
