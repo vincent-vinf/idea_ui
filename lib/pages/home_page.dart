@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
     if (!isLoad) _count = 0;
     final re = await post(
         _dataSrc, {"page": (_count ~/ _pageSize) + 1, "pageSize": _pageSize});
-    int cnt = 0;
     List<Idea> tmp = [];
     if (isLoad && _total <= _count) {
       Fluttertoast.showToast(

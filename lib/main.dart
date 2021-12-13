@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idea/pages/chat_page.dart';
 import 'package:idea/pages/edit_page.dart';
 import 'package:idea/pages/home_page.dart';
 import 'package:idea/pages/login.dart';
@@ -44,10 +45,7 @@ class MyNavigationBarState extends State<MyNavigationBar> {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     SortPage(),
-    Align(
-      alignment: Alignment.center,
-      child: Text("chat\ntodo"),
-    ),
+    ChatPage(),
     UserPage(),
   ];
 
@@ -80,7 +78,7 @@ class MyNavigationBarState extends State<MyNavigationBar> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return EditPage();
+              return const EditPage();
             }),
           );
         },

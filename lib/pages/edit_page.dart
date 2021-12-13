@@ -144,7 +144,7 @@ class _EditPageState extends State<EditPage> {
             },
           ),
           actions: [
-            TextButton(
+            ElevatedButton(
               onPressed: publicIdea,
               child: const Text("发布"),
             ),
