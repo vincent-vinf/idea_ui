@@ -5,6 +5,7 @@ import 'package:idea/pages/home_page.dart';
 import 'package:idea/pages/login.dart';
 import 'package:idea/pages/sort_page.dart';
 import 'package:idea/pages/user_page.dart';
+import 'package:idea/util/color.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/token.dart';
 
@@ -17,13 +18,12 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'IDEA',
       theme: ThemeData(
-        primarySwatch: Colors.grey,
+        primarySwatch: Colors.blue,
       ),
       home: isValidToken() ? const MyNavigationBar() : const LoginScreen(),
     );
@@ -42,11 +42,11 @@ class MyNavigationBar extends StatefulWidget {
 class MyNavigationBarState extends State<MyNavigationBar> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _pages = <Widget>[
-    HomePage(),
-    SortPage(),
-    ChatPage(),
-    UserPage(),
+  static  final List<Widget> _pages = <Widget>[
+    const HomePage(),
+    const SortPage(),
+    const ChatPage(),
+    UserPage(userId: selfID,),
   ];
 
   //call this method on click of each bottom app bar item to update the screen

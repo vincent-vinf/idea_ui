@@ -10,6 +10,8 @@ import 'package:markdown_editable_textinput/format_markdown.dart';
 import 'package:markdown_editable_textinput/markdown_text_input.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
+import 'idea_info.dart';
+
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
 
@@ -117,11 +119,19 @@ class _EditPageState extends State<EditPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IdeaCard(
-          idea: similarIdeas[index],
-          isMarkdown: false,
-          disableLike: true,
-          fixHeight: 88,
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  IdeaInfo(idea: similarIdeas[index]),
+            ));
+          },
+          child: IdeaCard(
+            idea: similarIdeas[index],
+            isMarkdown: false,
+            disableLike: false,
+            fixHeight: 88,
+          ),
         ),
       ],
     );
@@ -144,9 +154,16 @@ class _EditPageState extends State<EditPage> {
             },
           ),
           actions: [
-            ElevatedButton(
-              onPressed: publicIdea,
-              child: const Text("发布"),
+            Container(
+              margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+              child: ElevatedButton(
+                onPressed: publicIdea,
+                child: const Text("发布"),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35))),
+                ),
+              ),
             ),
           ],
         ),

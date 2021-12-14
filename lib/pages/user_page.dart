@@ -15,9 +15,9 @@ import 'package:intl/intl.dart';
 //  Divider(height: 1.0), // 分割线
 
 class UserPage extends StatefulWidget {
-  final int? userId;
+  final int userId;
 
-  const UserPage({Key? key, this.userId}) : super(key: key);
+  const UserPage({Key? key, required this.userId}) : super(key: key);
 
   @override
   _UserPageState createState() => _UserPageState();
@@ -38,12 +38,10 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<void> getUser() async {
-    if (widget.userId == null) {
-      _user = await UserHolder.getUser(selfID);
-    } else {
-      _user = await UserHolder.getUser(widget.userId!);
-    }
-    setState(() {});
+    User u = await UserHolder.getUser(widget.userId);
+    setState(() {
+      _user = u;
+    });
   }
 
   Future<void> getSelfIdea() async {
@@ -155,9 +153,7 @@ class _UserPageState extends State<UserPage> {
                     )
                   ],
                 ),
-                widget.userId == null ||
-                        widget.userId == selfID ||
-                        widget.userId == 0
+                widget.userId == selfID || widget.userId == 0
                     ? Row(
                         children: [
                           Expanded(
@@ -166,9 +162,9 @@ class _UserPageState extends State<UserPage> {
                               margin: const EdgeInsets.all(10.0),
                               // height: 20.0,
                               child: TextButton(
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => UserInfo(),
+                                    builder: (context) => const UserInfo(),
                                   ));
                                 },
                                 child: const Text(

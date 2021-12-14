@@ -56,32 +56,30 @@ class _IntroPageState extends State<IntroPage> {
 
   List<Widget> slides() {
     slideList = [
-      Container(
-        child: GFImageOverlay(
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 70.0, left: 20),
-                child: Text(
-                  'Welcome!',
-                  style: TextStyle(
-                      color: Colors.white,
-                      decoration: TextDecoration.none,
-                      fontSize: 25),
-                ),
+      GFImageOverlay(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 70.0, left: 20),
+              child: Text(
+                'Welcome!',
+                style: TextStyle(
+                    color: Colors.white,
+                    decoration: TextDecoration.none,
+                    fontSize: 25),
               ),
-            ],
-          ),
-          color: Colors.orange,
-          image: const AssetImage('assets image here'),
-          boxFit: BoxFit.cover,
-          colorFilter:
-          ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.darken),
-          borderRadius: BorderRadius.circular(5),
+            ),
+          ],
         ),
+        color: Colors.orange,
+        image: const AssetImage('assets image here'),
+        boxFit: BoxFit.cover,
+        colorFilter:
+        ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.darken),
+        borderRadius: BorderRadius.circular(5),
       ),
       Container(
         width: MediaQuery.of(context).size.width,

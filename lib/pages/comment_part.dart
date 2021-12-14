@@ -174,13 +174,43 @@ class _CommentPartState extends State<CommentPart> {
               padding: const EdgeInsets.fromLTRB(40, 4, 0, 0),
               child: Row(
                 children: [
-                  toUser != null
-                      ? Text(
-                          "@" + toUser!.name + " ",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      : Container(),
-                  Text(widget.comment.content),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: RichText(
+                        softWrap: true,
+                        text: TextSpan(
+                          children: [
+                            toUser != null
+                                ? TextSpan(
+                                    text: "@" + toUser!.name + " ",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  )
+                                : TextSpan(),
+                            TextSpan(
+                              text: widget.comment.content,
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // toUser != null
+                  //     ? Text(
+                  //         "@" + toUser!.name + " ",
+                  //         style: const TextStyle(fontWeight: FontWeight.bold),
+                  //       )
+                  //     : Container(),
+                  // Expanded(
+                  //   child: Text(
+                  //     widget.comment.content,
+                  //     softWrap: true,
+                  //   ),
+                  // ),
                 ],
               ),
               alignment: Alignment.centerLeft,

@@ -18,13 +18,21 @@ class _ChatPageState extends State<ChatPage> {
             padding: EdgeInsets.only(right: 160),
             child: TabBar(tabs: [
               Tab(
-                text: "通知",
+                child: Text(
+                  "通知",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               Tab(
-                text: "聊天",
+                child: Text(
+                  "聊天",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ]),
           ),
+          // backgroundColor: Colors.white,
+          backgroundColor: Colors.white,
         ),
         body: const TabBarView(children: [
           Center(child: Text('通知')),
