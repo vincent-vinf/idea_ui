@@ -33,16 +33,21 @@ class LoginScreen extends StatelessWidget {
 
   Future<String?> _signupUser(SignupData data) async {
     debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
-    final re = await post("/register",
-        {"username": data.name, "email": data.name, "passwd": data.password});
-    if (re.statusCode == 200 &&
-        re.data["code"] == 0 &&
-        re.data["data"]["code"] == 200) {
-      debugPrint(re.data["data"]["token"]);
-      setToken(re.data["data"]["token"]);
-      return null;
-    } else {
-      return "Email already exists";
+    try {
+      final re = await post("/register",
+          {"username": data.name, "email": data.name, "passwd": data.password});
+      if (re.statusCode == 200 &&
+          re.data["code"] == 0 &&
+          re.data["data"]["code"] == 200) {
+        debugPrint(re.data["data"]["token"]);
+        setToken(re.data["data"]["token"]);
+        return null;
+      } else {
+        return "Email already exists";
+      }
+    } catch (e) {
+      print(e);
+      return "Network Error!";
     }
   }
 

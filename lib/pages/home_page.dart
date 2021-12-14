@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/pages/idea_card.dart';
-import 'package:idea/util/color.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/space_header.dart';
 

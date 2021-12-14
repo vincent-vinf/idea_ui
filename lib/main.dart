@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:idea/pages/chat_page.dart';
 import 'package:idea/pages/edit_page.dart';
 import 'package:idea/pages/home_page.dart';
+import 'package:idea/pages/intro_page.dart';
 import 'package:idea/pages/login.dart';
 import 'package:idea/pages/sort_page.dart';
 import 'package:idea/pages/user_page.dart';
-import 'package:idea/util/color.dart';
 import 'package:idea/util/request.dart';
 import 'package:idea/util/token.dart';
 
@@ -18,6 +18,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,8 +26,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: isValidToken() ? const MyNavigationBar() : const LoginScreen(),
+      home: getInitPage(),
     );
+  }
+
+  Widget getInitPage() {
+    if (isFirstInit) {
+      return const IntroPage();
+    }
+    if (isValidToken()) {
+      return const MyNavigationBar();
+    } else {
+      return const LoginScreen();
+    }
   }
 }
 
@@ -42,11 +54,13 @@ class MyNavigationBar extends StatefulWidget {
 class MyNavigationBarState extends State<MyNavigationBar> {
   int _selectedIndex = 0;
 
-  static  final List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     const HomePage(),
     const SortPage(),
     const ChatPage(),
-    UserPage(userId: selfID,),
+    UserPage(
+      userId: selfID,
+    ),
   ];
 
   //call this method on click of each bottom app bar item to update the screen

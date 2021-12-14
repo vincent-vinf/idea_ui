@@ -37,9 +37,9 @@ class _IdeaCardState extends State<IdeaCard>
     // print("life: " + life.toString());
     if (life <= 0.5) {
       return const AssetImage('assets/image/life0.png');
-    } else if (life < 20) {
+    } else if (life < 10) {
       return const AssetImage('assets/image/life20.png');
-    } else if (life < 50) {
+    } else if (life < 20) {
       return const AssetImage('assets/image/life50.png');
     } else {
       return const AssetImage('assets/image/life100.png');
