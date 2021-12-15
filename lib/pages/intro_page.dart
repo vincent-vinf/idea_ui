@@ -18,10 +18,10 @@ class _IntroPageState extends State<IntroPage> {
       bubble: Image.asset(
           'assets/image/init/Flame_Design_Science_transparent_by_Icons8.gif'),
       body: const Text(
-        'Hassle-free  booking  of  flight  tickets  with  full  refund  on  cancellation',
+        '分享奇妙金点子',
       ),
       title: const Text(
-        'Flights',
+        'Share',
       ),
       titleTextStyle:
           const TextStyle(fontFamily: 'MyFont', color: Colors.white),
@@ -36,13 +36,13 @@ class _IntroPageState extends State<IntroPage> {
     PageViewModel(
       pageColor: const Color(0xFF8BC34A),
       iconImageAssetPath:
-          'assets/image/init/Flame_Remote_Working_transparent_by_Icons8.gif',
+          'assets/image/init/Flame_Space_Adventures_transparent_by_Icons8.gif',
       body: const Text(
-        'We  work  for  the  comfort ,  enjoy  your  stay  at  our  beautiful  hotels',
+        '发现同频脑电波',
       ),
-      title: const Text('Hotels'),
+      title: const Text('Discovery'),
       mainImage: Image.asset(
-        'assets/image/init/Flame_Remote_Working_transparent_by_Icons8.gif',
+        'assets/image/init/Flame_Space_Adventures_transparent_by_Icons8.gif',
         height: 285.0,
         width: 285.0,
         alignment: Alignment.center,
@@ -69,9 +69,9 @@ class _IntroPageState extends State<IntroPage> {
       iconImageAssetPath:
           'assets/image/init/Flame_Training_transparent_by_Icons8.gif',
       body: const Text(
-        'Easy  cab  booking  at  your  doorstep  with  cashless  payment  system',
+        "let's go!",
       ),
-      title: const Text('Cabs'),
+      title: const Text('Go!'),
       mainImage: Image.asset(
         'assets/image/init/Flame_Training_transparent_by_Icons8.gif',
         height: 285.0,
