@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+class MessagePage extends StatefulWidget {
+  const MessagePage({Key? key}) : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _MessagePageState createState() => _MessagePageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

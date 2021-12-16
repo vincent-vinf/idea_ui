@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.17.0
   google_nav_bar: ^5.0.5
   intro_views_flutter: ^3.2.0
+  flutter_chat_ui: ^1.5.3
 
 #  material_floating_search_bar: ^0.3.6
 

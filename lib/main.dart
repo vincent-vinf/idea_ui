@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:idea/pages/chat_page.dart';
+import 'package:idea/pages/message/message_page.dart';
 import 'package:idea/pages/edit_page.dart';
 import 'package:idea/pages/home_page.dart';
 import 'package:idea/pages/intro_page.dart';
@@ -57,7 +57,7 @@ class MyNavigationBarState extends State<MyNavigationBar> {
   static final List<Widget> _pages = <Widget>[
     const HomePage(),
     const SortPage(),
-    const ChatPage(),
+    const MessagePage(),
     UserPage(
       userId: selfID,
     ),
