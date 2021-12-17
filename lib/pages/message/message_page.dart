@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idea/pages/message/chat_page.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _MessagePageState extends State<MessagePage> {
         ),
         body: const TabBarView(children: [
           Center(child: Text('通知')),
-          Center(child: Text('聊天')),
+          ChatPage(),
         ]),
       ),
     );

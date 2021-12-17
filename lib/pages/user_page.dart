@@ -46,7 +46,7 @@ class _UserPageState extends State<UserPage> {
 
   Future<void> getSelfIdea() async {
     final re = await post(
-        "/idea/get_my_idea_list", {"page": page, "pageSize": pageSize});
+        "/idea/get_idea_list", {"page": page, "pageSize": pageSize,"userId":widget.userId,});
     if (re.statusCode == 200 && re.data["code"] == 0) {
       page++;
       setState(() {
@@ -96,6 +96,7 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
+
     getUser();
     getSelfIdea();
   }

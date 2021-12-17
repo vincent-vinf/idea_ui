@@ -10,7 +10,7 @@ int selfID = 0;
 bool isFirstInit = false;
 
 Future<void> getDiskToken() async {
-  await storage.delete(key: tokenKey);
+  // await storage.delete(key: tokenKey);
   // token == null 第一次使用
   // token == ""  上次登出
   // token 有效
