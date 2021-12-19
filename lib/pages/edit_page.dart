@@ -40,11 +40,17 @@ class _EditPageState extends State<EditPage> {
     }
     try {
       final re = await post("/idea/create_idea", {"content": _data});
-      if (re.statusCode == 200 && re.data["code"] == 0) {
-        Fluttertoast.showToast(
-          msg: "发布idea成功",
-        );
-        Navigator.pop(context);
+      if (re.statusCode == 200) {
+        if (re.data["code"] == 0) {
+          Fluttertoast.showToast(
+            msg: "发布idea成功",
+          );
+          Navigator.pop(context);
+        } else {
+          Fluttertoast.showToast(
+            msg: "发布idea失败",
+          );
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -103,7 +109,7 @@ class _EditPageState extends State<EditPage> {
       // controller: _controller,
       layout: SwiperLayout.TINDER,
       outer: true,
-      itemHeight: 250.0,
+      itemHeight: 270.0,
       // viewportFraction: _viewportFraction,
       // autoplayDelay: _autoplayDelay,
       // loop: _loop,
@@ -122,8 +128,7 @@ class _EditPageState extends State<EditPage> {
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  IdeaInfo(idea: similarIdeas[index]),
+              builder: (context) => IdeaInfo(idea: similarIdeas[index]),
             ));
           },
           child: IdeaCard(
@@ -207,17 +212,21 @@ class _EditPageState extends State<EditPage> {
                     data: _data == "" ? "Here is empty" : _data,
                   )),
               front: MarkdownTextInput(
-                (String value) => setState(() {
+                (String value) {
                   _data = value;
+
                   if (_data.length >= 8 &&
+                      // _data.length != value.length &&
                       DateTime.now()
                               .difference(_preRefreshTime)
                               .inMilliseconds >
                           1000) {
-                    refreshSimilarIdeas();
+                    setState(() {
+                      refreshSimilarIdeas();
+                    });
                     _preRefreshTime = DateTime.now();
                   }
-                }),
+                },
                 _data,
                 label: 'Record your novel ideas here',
                 maxLines: 12,

@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
     try {
       // re = await post("/login", {"email": "857618786@qq.com", "passwd": "123456"});
 
-      re = await post("/login", {"email": "thanks@v2ex.com", "passwd": "1"});
+      re = await post("/login", {"email": data.name, "passwd": data.password});
     } catch (e) {
       print(e);
       return "Incorrect username or password";

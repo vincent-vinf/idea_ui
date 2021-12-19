@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
+import 'package:idea/pages/comment_part.dart';
 import 'package:idea/pages/user_page.dart';
 import 'package:idea/util/request.dart';
 import 'package:intl/intl.dart';
@@ -147,6 +148,21 @@ class _IdeaCardState extends State<IdeaCard>
                   height: widget.fixHeight, child: Text(widget.idea.summary)),
           const SizedBox(
             height: 8,
+          ),
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.only(left: 5),
+                child: GFBadge(
+                  size: 32,
+                  child: Text(widget.idea.type,style: TextStyle(fontSize: 10),),
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 4,
           ),
           Row(
             children: [
