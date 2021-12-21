@@ -37,7 +37,9 @@ class _MessagePageState extends State<MessagePage> {
         ),
         body: const TabBarView(children: [
           Center(child: Text('通知')),
-          ChatPage(),
+          Center(child: Text('聊天')),
+
+          // ChatPage(),
         ]),
       ),
     );
