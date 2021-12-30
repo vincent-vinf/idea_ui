@@ -40,7 +40,7 @@ class _IntroPageState extends State<IntroPage> {
       body: const Text(
         '发现同频脑电波',
       ),
-      title: const Text('Discovery'),
+      title: const Text('Discover'),
       mainImage: Image.asset(
         'assets/image/init/Flame_Space_Adventures_transparent_by_Icons8.gif',
         height: 285.0,

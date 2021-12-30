@@ -15,8 +15,6 @@ class LoginScreen extends StatelessWidget {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     Response re;
     try {
-      // re = await post("/login", {"email": "857618786@qq.com", "passwd": "123456"});
-
       re = await post("/login", {"email": data.name, "passwd": data.password});
     } catch (e) {
       print(e);

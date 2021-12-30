@@ -61,10 +61,6 @@ class _EditPageState extends State<EditPage> {
   }
 
   Future<void> refreshSimilarIdeas() async {
-    // setState(() {
-    //   similarIdeas = [Idea.blankIdea, Idea.blankIdea, Idea.blankIdea];
-    // });
-    // return;
     final re = await post("/idea/get_similar_ideas", {"text": _data});
     if (re.statusCode == 200 && re.data["code"] == 0) {
       if (re.data["data"] != null) {
@@ -214,7 +210,6 @@ class _EditPageState extends State<EditPage> {
               front: MarkdownTextInput(
                 (String value) {
                   _data = value;
-
                   if (_data.length >= 8 &&
                       // _data.length != value.length &&
                       DateTime.now()

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:idea/entity/idea.dart';
 import 'package:idea/entity/user.dart';
-import 'package:idea/pages/comment_part.dart';
 import 'package:idea/pages/user_page.dart';
 import 'package:idea/util/request.dart';
 import 'package:intl/intl.dart';
@@ -53,11 +52,9 @@ class _IdeaCardState extends State<IdeaCard>
   }
 
   ImageProvider getImage() {
-    // return AssetImage(UserHolder.blankUser.avatar);
     if (user == null || user!.id == 0) {
       return AssetImage(UserHolder.blankUser.avatar);
     }
-    // print(user!.avatar);
     return CachedNetworkImageProvider(baseUrl + user!.avatar);
   }
 
@@ -145,17 +142,22 @@ class _IdeaCardState extends State<IdeaCard>
                       MarkdownGenerator(data: widget.idea.content).widgets!,
                 )
               : SizedBox(
-                  height: widget.fixHeight, child: Text(widget.idea.summary)),
+                  height: widget.fixHeight,
+                  child: Text(widget.idea.summary),
+                ),
           const SizedBox(
             height: 8,
           ),
           Row(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5),
                 child: GFBadge(
                   size: 32,
-                  child: Text(widget.idea.type,style: TextStyle(fontSize: 10),),
+                  child: Text(
+                    widget.idea.type,
+                    style: const TextStyle(fontSize: 10),
+                  ),
                   color: Colors.grey,
                 ),
               ),

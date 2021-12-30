@@ -11,7 +11,6 @@ import 'idea_info.dart';
 
 /// TODO
 /// []点赞数
-/// []发布页
 /// 主题色
 
 class HomePage extends StatefulWidget {

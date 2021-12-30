@@ -122,8 +122,6 @@ class _IdeaInfoState extends State<IdeaInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.idea.comments.length);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("idea"),
